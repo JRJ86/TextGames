@@ -25,6 +25,11 @@ public class TUI {
 
     }
 
+    /**
+     * The main menu
+     *
+     * It will only
+     */
     public static void mainMenu(){
         System.out.println("-------------------------------------------------------------------------------------------");
         System.out.println("|                                                                                         |");
@@ -40,13 +45,28 @@ public class TUI {
 
     }
 
+    /**
+     * Choose how many players you want to play
+     */
     public static void preGameMenu(){
         System.out.println("-------------------------------------------------------------------------------------------");
         System.out.println("|                                                                                         |");
-
+        System.out.println("|               Input how many players there will be in the game!                         |");
+        System.out.println("|                                                                                         |");
+        System.out.println("|               To go back to the main menu type 'back'!                                  |");
+        System.out.println("|               To quit the game press 'quit'!                                            |");
+        System.out.println("|                                                                                         |");
+        System.out.println("-------------------------------------------------------------------------------------------");
 
     }
 
+    /**
+     * This will display a menu where the player can:
+     *  - Check his properties
+     *  - Roll dice
+     *  - Buy houses
+     *  -
+     */
     public static void turnMenu(){
 
     }
