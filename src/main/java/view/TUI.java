@@ -1,6 +1,11 @@
 package view;
 
+import model.Board;
 import model.Player;
+import model.fields.BuyableField;
+
+import javax.swing.*;
+import java.util.ArrayList;
 
 public class TUI {
 
@@ -53,25 +58,64 @@ public class TUI {
     public static void preGameMenu(){
         System.out.println("-------------------------------------------------------------------------------------------\n" +
                            "|                                                                                         |\n" +
-                           "|                  Input how many players there will be in the game!                      |\n" +
+                           "|                  Input how many players there will be in the game (MAX 6)!              |\n" +
                            "|                                                                                         |\n" +
-                           "|                  To go back to the main menu type 'back'!                               |\n" +
-                           "|                  To quit the game press 'quit'!                                         |\n" +
+                           "|                  Type 'back' to go to the main menu!                                    |\n" +
+                           "|                  Type 'quit' to quit the game!                                          |\n" +
                            "|                                                                                         |\n" +
                            "-------------------------------------------------------------------------------------------\n");
     }
 
     /**
-     * This will display a menu where the player can:
-     *  - Check his properties
-     *  - Roll dice and take turn
-     *  - Buy houses or hotels
-     *  -
+     *
+     * * This will display a menu where the player can:
+     *
+     *   - Check his properties
+     *   - Roll dice and take turn
+     *   - Buy houses or hotels
+     *   - Save the game
+     *   - Quit the game
+     *
+     *    TODO: maybe add more actions a player can do?
+     *
+     * @param player The player whose turn it is
+     * @param board the game board
      */
-    public static void turnMenu(Player player){
-
+    public static void turnMenu(Player player, Board board){
+        System.out.println("-------------------------------------------------------------------------------------------\n" +
+                           "\n" +
+                           "                            Player is: " + player.getName().toUpperCase() + "\n" +
+                           "\n" +
+                           "-------------------------------------------------------------------------------------------\n" +
+                           "\n" +
+                           "                            Player cash balance: " + player.getWalletAmount() +"\n" +
+                           "                            Player position on the board: " + player.getPosition() + "\n" +
+                           "                            Player is the field: " + board.getBoard()[player.getPosition()].getName() + "\n" +
+                           "\n" +
+                           "\n" +
+                           "\n" +
+                           "---------------------------     ---------------------------     ---------------------------\n" +
+                           "|         Press 1:        |     |         Press 2:        |     |         Press 3:        |\n" +
+                           "|     Roll the dice!!     |     |   See your properties!  |     |   Buy houses or hotel!  |\n" +
+                           "---------------------------     ---------------------------     ---------------------------\n" +
+                           "\n" +
+                           "---------------------------     ---------------------------     ---------------------------\n" +
+                           "|         Press 4:        |     |         Press 5:        |     |         Press 6:        |\n" +
+                           "|     Pawn properties!    |     |     Save and quit!      |     |     Quit or give up!    |\n" +
+                           "---------------------------     ---------------------------     ---------------------------\n" +
+                           "\n");
     }
 
+    public static void printOwnedFields(ArrayList<BuyableField> ownedFields, Player player){
+        
+        if (ownedFields.isEmpty()){
+            System.out.println(player.getName() + " does not own any properties!");
+        }else {
+            for (BuyableField field : ownedFields) {
+                System.out.println(field);
+            }
+        }
+    }
 
 
 }

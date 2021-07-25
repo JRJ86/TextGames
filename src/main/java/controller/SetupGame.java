@@ -170,7 +170,7 @@ public class SetupGame {
                     board[i] = property;
                     break;
                 case 28:
-                    brewery = createBrewery("Tuborg");
+                    brewery = createBrewery("Tuborg brewery");
                     board[i] = brewery;
                     break;
                 case 29:

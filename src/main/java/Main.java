@@ -13,17 +13,17 @@ import static view.TUI.startup;
 
 public class Main {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
 //        JFrame frame = new JFrame("MATADOR");
 //        JMenuBar menuBar = new JMenuBar();
 //
 //        GUI gui = new GUI();
 //        gui.gameScreen(frame,menuBar);
 
-
-//        test();
-
-
-
+        try {
+            test();
+        }catch (InterruptedException e){
+            System.out.println(e);
+        }
     }
 }
