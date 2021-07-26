@@ -24,7 +24,7 @@ public class NonUnittestTesting {
         ChanceField chanceField = new ChanceField();
         JailLogik jailLogik = new JailLogik();
 
-        setupGame.createGame(board.getBoard(),board.getChancePile());
+//        setupGame.createGame(board.getBoard(),board.getChancePile());
 
         while (true){
 
@@ -46,7 +46,7 @@ public class NonUnittestTesting {
                         testDiceRolling(input,p1);
                         break;
                     case 3:
-                        testPrintChancePile(board,setupGame,chanceField);
+                        testPrintChancePile(board,setupGame);
                         break;
                     case 4:
                         testPrintBoard(setupGame,board);
@@ -129,7 +129,7 @@ public class NonUnittestTesting {
      */
     private static void testPrintBoard(SetupGame setupGame, Board board) {
 
-        //setupGame.createGame(board.getBoard(), board.getChancePile());
+        setupGame.createGame(board.getBoard(), board.getChancePile());
 
         setupGame.printBoard(board.getBoard());
     }
@@ -138,9 +138,9 @@ public class NonUnittestTesting {
      * Testing the different methods and functions involving the chance pile
      * TODO: Not done
      */
-    private static void testPrintChancePile(Board board, SetupGame setupGame, ChanceField chanceField) {
+    private static void testPrintChancePile(Board board, SetupGame setupGame) {
 
-        //setupGame.createGame(board.getBoard(), board.getChancePile());
+        setupGame.createGame(board.getBoard(), board.getChancePile());
 
         setupGame.printChancePile(board.getChancePile());
     }
@@ -302,13 +302,7 @@ public class NonUnittestTesting {
                     TUI.turnMenu(player,board);
                     Thread.sleep(500);
 
-
                 }
-
-
-
-
-
             }
         }
     }

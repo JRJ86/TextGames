@@ -6,7 +6,10 @@ import model.chancecards.PayMoney;
 import model.fields.ChanceField;
 import model.fields.*;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Queue;
+import java.util.Random;
 
 public class SetupGame {
 
@@ -355,6 +358,8 @@ public class SetupGame {
                     break;
             }
         }
+
+        Collections.shuffle((List<?>) pile, new Random()); //TODO Test it
     }
 
     private PayMoney createPayMoneyChanceCard(int amount, String description){
