@@ -4,16 +4,20 @@ import model.Player;
 
 public class GameController {
 
-    public void turn(Player player){
+    public static void startupGame(){
 
     }
 
-    public boolean winningConditions(){
+    public static void turn(Player player){
+
+    }
+
+    private boolean winningConditions(){
 
         return false;
     }
 
-    public boolean loosingConditions(){
+    private boolean loosingConditions(){
 
         return false;
     }
