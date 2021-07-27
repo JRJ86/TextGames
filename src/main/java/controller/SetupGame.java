@@ -359,7 +359,7 @@ public class SetupGame {
             }
         }
 
-        Collections.shuffle((List<?>) pile, new Random()); //TODO Test it
+        Collections.shuffle((List<?>) pile, new Random());
     }
 
     private PayMoney createPayMoneyChanceCard(int amount, String description){

@@ -35,6 +35,9 @@ public class NonUnittestTesting {
             System.out.println("4: Print the board");
             System.out.println("5: Test jail methods and functions");
             System.out.println("6: Test TUI menus");
+            System.out.println("7: Test BreweryLogic methods");
+            System.out.println("8: Test JailLogic methods");
+            System.out.println("9: Test");
 
             int choice = input.nextInt();
             while (true){
