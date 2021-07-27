@@ -6,7 +6,10 @@ import model.chancecards.PayMoney;
 import model.fields.ChanceField;
 import model.fields.*;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Queue;
+import java.util.Random;
 
 public class SetupGame {
 
@@ -170,7 +173,7 @@ public class SetupGame {
                     board[i] = property;
                     break;
                 case 28:
-                    brewery = createBrewery("Tuborg");
+                    brewery = createBrewery("Tuborg brewery");
                     board[i] = brewery;
                     break;
                 case 29:
@@ -355,6 +358,8 @@ public class SetupGame {
                     break;
             }
         }
+
+        Collections.shuffle((List<?>) pile, new Random());
     }
 
     private PayMoney createPayMoneyChanceCard(int amount, String description){

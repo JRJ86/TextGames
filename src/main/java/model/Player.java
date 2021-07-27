@@ -10,7 +10,7 @@ public class Player {
     private int walletAmount;
     private int position;
     private int currentRoll;
-    private ArrayList<BuyableField> properties = new ArrayList<>();
+    private ArrayList<BuyableField> properties = new ArrayList<>(); // Maybe not initialize! TODO
     private boolean inJail;
     private DiceCup diceCup = new DiceCup();
 

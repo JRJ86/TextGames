@@ -1,18 +1,21 @@
 package Testing;
 
 import controller.JailLogik;
+import controller.ParkingLogic;
 import controller.SetupGame;
 import model.Board;
 import model.Player;
 import model.fields.BuyableField;
 import model.fields.ChanceField;
 import model.fields.Property;
+import view.TUI;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class NonUnittestTesting {
 
-    public static void test(){
+    public static void test() throws InterruptedException {
 
         Player p1 = new Player();
         Scanner input = new Scanner(System.in);
@@ -21,7 +24,7 @@ public class NonUnittestTesting {
         ChanceField chanceField = new ChanceField();
         JailLogik jailLogik = new JailLogik();
 
-        setupGame.createGame(board.getBoard(),board.getChancePile());
+//        setupGame.createGame(board.getBoard(),board.getChancePile());
 
         while (true){
 
@@ -30,7 +33,11 @@ public class NonUnittestTesting {
             System.out.println("2: test dice rolling methods and functions");
             System.out.println("3: Print the chance pile");
             System.out.println("4: Print the board");
-            System.out.println("5: test jail methods and functions");
+            System.out.println("5: Test jail methods and functions");
+            System.out.println("6: Test TUI menus");
+            System.out.println("7: Test BreweryLogic methods");
+            System.out.println("8: Test JailLogic methods");
+            System.out.println("9: Test");
 
             int choice = input.nextInt();
             while (true){
@@ -42,13 +49,16 @@ public class NonUnittestTesting {
                         testDiceRolling(input,p1);
                         break;
                     case 3:
-                        testPrintChancePile(board,setupGame,chanceField);
+                        testPrintChancePile(board,setupGame);
                         break;
                     case 4:
                         testPrintBoard(setupGame,board);
                         break;
                     case 5:
                         testGetOutOfJail(board,setupGame,jailLogik,input);
+                        break;
+                    case 6:
+                        testTUI(input,board,setupGame);
                         break;
                     default:
                         break;
@@ -122,7 +132,7 @@ public class NonUnittestTesting {
      */
     private static void testPrintBoard(SetupGame setupGame, Board board) {
 
-        //setupGame.createGame(board.getBoard(), board.getChancePile());
+        setupGame.createGame(board.getBoard(), board.getChancePile());
 
         setupGame.printBoard(board.getBoard());
     }
@@ -131,9 +141,9 @@ public class NonUnittestTesting {
      * Testing the different methods and functions involving the chance pile
      * TODO: Not done
      */
-    private static void testPrintChancePile(Board board, SetupGame setupGame, ChanceField chanceField) {
+    private static void testPrintChancePile(Board board, SetupGame setupGame) {
 
-        //setupGame.createGame(board.getBoard(), board.getChancePile());
+        setupGame.createGame(board.getBoard(), board.getChancePile());
 
         setupGame.printChancePile(board.getChancePile());
     }
@@ -141,21 +151,21 @@ public class NonUnittestTesting {
     /**
      * Testing the different dice rolling methods and functions
      */
-    private static void testDiceRolling(Scanner input,Player p1) {
+    private static void testDiceRolling(Scanner input,Player player) {
         System.out.println("Testing the dice rolling");
         System.out.println("How many eyes do you want your dice to have?");
 
         int eye = input.nextInt();
         String choices;
 
-        p1.chooceDice(eye);
+        player.chooceDice(eye);
 
         System.out.println("Lets start rolling!!");
 
         do {
 
-            p1.throwDice();
-            System.out.println(p1.yourRoll());
+            player.throwDice();
+            System.out.println(player.yourRoll());
             System.out.println("Go again?");
             choices = input.next();
 
@@ -165,7 +175,7 @@ public class NonUnittestTesting {
     /**
      * Testing different Property methods and functions
      */
-    private static void testProperty(Player p1){
+    private static void testProperty(Player player){
         System.out.println("Testing the properties list and creation of objects");
 
         Property field = new Property("red", new int[]{5,10,20,30,40,100},100,0, false);
@@ -189,16 +199,114 @@ public class NonUnittestTesting {
             System.out.println(property);
         }
 
-        p1.getProperties().add(field);
-        p1.getProperties().add(field1);
-        p1.getProperties().add(field2);
+        player.getProperties().add(field);
+        player.getProperties().add(field1);
+        player.getProperties().add(field2);
 
-        for (int i = 0; i < p1.getProperties().size(); i++){
-            System.out.println(p1.getProperties().get(i));
+        for (int i = 0; i < player.getProperties().size(); i++){
+            System.out.println(player.getProperties().get(i));
         }
 
         int r = field.getRents()[0];
 
         System.out.println(r);
+    }
+
+    private static void testTUI(Scanner scanner, Board board, SetupGame setupGame) throws InterruptedException {
+
+        String input;
+        int parsedInput1 = 0;
+
+        setupGame.createGame(board.getBoard(), board.getChancePile());
+
+//        TUI.startup();
+
+        while (true){
+
+            TUI.mainMenu();
+
+            while (true){
+
+                do {
+
+                    input = scanner.next();
+
+                    try {
+
+                        Integer.parseInt(input);
+
+                        if (input.equals("2")){
+                            System.out.println("Not implemented yet");
+                        }else if (input.equals("1")){
+                            System.out.println("Starting new game!!!");
+                            break;
+                        }else{
+                            System.out.println("Wrong number!");
+                        }
+
+
+                    }catch (NumberFormatException e){
+                        System.out.println("Not a number. Try again!");
+                    }
+
+                }while (true);
+
+                TUI.preGameMenu();
+
+                do {
+
+                    input = scanner.next();
+
+                    if (input.equals("quit") || input.equals("back")){
+                        break;
+                    }
+
+                    try {
+                        parsedInput1 = Integer.parseInt(input);
+
+                        if (parsedInput1 >= 1 && parsedInput1 <= 6 ){
+                            break;
+                        }else {
+                            System.out.println("Number out of range. Try again!");
+                        }
+
+                    }catch (NumberFormatException e){
+                        System.out.println("Input not one of the required actions!");
+                    }
+
+
+
+                }while (true);
+
+                if (input.equals("quit")){
+                    System.out.println("Quitting!!!");
+                    System.exit(0);
+                }else if (input.equals("back")){
+                    System.out.println("Going back to main menu!");
+                    break;
+                }else {
+
+                    for (int i = 0; i < parsedInput1; i++) {
+                        Player player = new Player();
+                        System.out.println("Input name of player" + (i+1));
+                        player.setName(scanner.next());
+                        player.setWalletAmount(4000);
+                        player.setPosition(new Random().nextInt(30));
+                        board.getPlayers().add(player);
+                    }
+
+                    for(Player player : board.getPlayers()){
+                        System.out.println(player);
+                    }
+                }
+
+                for (int i = 0; i < board.getPlayers().size(); i++) {
+                    Player player = board.getPlayers().get(i);
+                    TUI.turnMenu(player,board);
+                    Thread.sleep(500);
+
+                }
+            }
+        }
     }
 }
