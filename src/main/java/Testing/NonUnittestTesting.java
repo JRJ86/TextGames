@@ -1,11 +1,9 @@
 package Testing;
 
-import controller.JailLogik;
-import controller.ParkingLogic;
+import logic.JailLogik;
 import controller.SetupGame;
 import model.Board;
 import model.Player;
-import model.fields.BuyableField;
 import model.fields.ChanceField;
 import model.fields.Property;
 import view.TUI;
@@ -28,16 +26,15 @@ public class NonUnittestTesting {
 
         while (true){
 
-            System.out.println("Which test do you want to run? \n");
-            System.out.println("1: test property methods and functions");
-            System.out.println("2: test dice rolling methods and functions");
-            System.out.println("3: Print the chance pile");
-            System.out.println("4: Print the board");
-            System.out.println("5: Test jail methods and functions");
-            System.out.println("6: Test TUI menus");
-            System.out.println("7: Test BreweryLogic methods");
-            System.out.println("8: Test JailLogic methods");
-            System.out.println("9: Test");
+            System.out.println("Which test do you want to run? \n\n" +
+                    "1: Test property methods and functions\n" +
+                    "2: Test dice rolling methods and functions\n" +
+                    "3: Print the chance pile\n" +
+                    "4: Print the board\n" +
+                    "5: Test JailLogic methods\n" +
+                    "6: Test TUI menu's\n" +
+                    "7: Test BreweryLogic methods\n" +
+                    "8: Test PayTaxLogic methods\n");
 
             int choice = input.nextInt();
             while (true){
@@ -60,7 +57,12 @@ public class NonUnittestTesting {
                     case 6:
                         testTUI(input,board,setupGame);
                         break;
+                    case 7:
+                        break;
+                    case 8:
+                        break;
                     default:
+                        System.out.println("Not a valid test number!!");
                         break;
 
                 }
@@ -82,19 +84,16 @@ public class NonUnittestTesting {
     }
 
     private static void testGetOutOfJail(Board board, SetupGame setupGame, JailLogik jailLogik, Scanner scanner) {
-        String choice;
 
         System.out.println("Creating the board");
         setupGame.createGame(board.getBoard(), board.getChancePile());
-        System.out.println();
         System.out.println("Board created");
-        System.out.println();
         System.out.println("Creating player!");
         Player player = new Player("Jacob", 4000, 0, false);
-        System.out.println();
         System.out.println("Player: \n" + player);
         System.out.println();
-        System.out.println("Putting player in jail!");
+        System.out.println("Putting player on the getting caught by police field!\n" +
+                "It is the field:\n "+ board.getBoard()[30].toString());
         player.setPosition(30);
         System.out.println("Player position is now: " + player.getPosition());
         jailLogik.goToJail(player);
@@ -106,25 +105,12 @@ public class NonUnittestTesting {
         System.out.println("To get out of jail, roll equal dice");
         player.chooceDice(6);
 
-        for (int i = 0; i < 2; i++){
+        boolean check;
 
-            System.out.println("Press 'r' to roll the dices!");
-            choice = scanner.next();
-            if (choice.equals("r")){
-                System.out.println("Rolling");
-                player.throwDice();
-                System.out.println(player.yourRoll());
-                if (player.getDiceCup().getDice1().getValue() == player.getDiceCup().getDice2().getValue()){ //TODO Find another way
-                    System.out.println("You are free from jail and may continue!");
-                    player.setInJail(false);
-                    System.out.println("Player jail status: " + player.isInJail());
-                    break;
-                }
-                if (i >= 1){
-                    System.out.println("You used up your tries. You are still in jail");
-                }
-            }
-        }
+        do {
+            check = jailLogik.getOutOfJail(scanner,player);
+        }while (!check);
+
     }
 
     /**
@@ -192,12 +178,6 @@ public class NonUnittestTesting {
         field2.setName("Voldens kvarter 3");
         field2.setPawnValue(200);
         field2.setOwned(false);
-
-        BuyableField[] properties = {field,field1,field2};
-
-        for (BuyableField property : properties) {
-            System.out.println(property);
-        }
 
         player.getProperties().add(field);
         player.getProperties().add(field1);
@@ -308,5 +288,15 @@ public class NonUnittestTesting {
                 }
             }
         }
+    }
+
+    private static void testBreweryLogic(){
+
+
+    }
+
+    private static void testPayTaxLogic(){
+
+
     }
 }
