@@ -1,5 +1,6 @@
 package Testing;
 
+import logic.BreweryLogic;
 import logic.JailLogik;
 import controller.SetupGame;
 import model.Board;
@@ -290,7 +291,13 @@ public class NonUnittestTesting {
         }
     }
 
-    private static void testBreweryLogic(){
+    private static void testBreweryLogic(Scanner scanner, Board board){
+
+        for (int i = 0; i < 4; i++) {
+            Player player = new Player(scanner.next(),4000,0,false);
+            board.getPlayers().add(player);
+        }
+
 
 
     }
