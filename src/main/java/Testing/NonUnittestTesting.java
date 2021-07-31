@@ -5,8 +5,7 @@ import logic.JailLogik;
 import controller.SetupGame;
 import model.Board;
 import model.Player;
-import model.fields.ChanceField;
-import model.fields.Property;
+import model.fields.*;
 import view.TUI;
 
 import java.util.Random;
@@ -59,6 +58,7 @@ public class NonUnittestTesting {
                         testTUI(input,board,setupGame);
                         break;
                     case 7:
+                        testBreweryLogic(input,board,setupGame);
                         break;
                     case 8:
                         break;
@@ -200,7 +200,7 @@ public class NonUnittestTesting {
 
         setupGame.createGame(board.getBoard(), board.getChancePile());
 
-//        TUI.startup();
+        TUI.startup();
 
         while (true){
 
@@ -291,12 +291,46 @@ public class NonUnittestTesting {
         }
     }
 
-    private static void testBreweryLogic(Scanner scanner, Board board){
+    private static void testBreweryLogic(Scanner scanner, Board board, SetupGame setupGame){
 
-        for (int i = 0; i < 4; i++) {
+        System.out.println("Creating game board!!");
+        setupGame.createGame(board.getBoard(),board.getChancePile());
+
+        System.out.println("Creating 2 players!!");
+        for (int i = 0; i < 2; i++) {
             Player player = new Player(scanner.next(),4000,0,false);
             board.getPlayers().add(player);
         }
+
+        while (true){
+
+            System.out.println("Setting the first player on the Coca cola field!");
+            board.getPlayers().get(0).setPosition(12);
+            System.out.println(board.getPlayers().get(0).getName() + "'s position on the board is: " + board.getPlayers().get(0).getPosition());
+
+            if (!((Brewery) board.getBoard()[12]).isOwned()){
+
+                System.out.println("Adding property to " + board.getPlayers().get(0).getName() + "'s properties!");
+                board.getPlayers().get(0).getProperties().add((BuyableField) board.getBoard()[12]);
+                ((Brewery) board.getBoard()[12]).setOwned(true);
+                break;
+
+            }else {
+                System.out.println("Another player owns this property");
+            }
+        }
+
+        System.out.println("Printing all properties:");
+        for (BuyableField field: board.getPlayers().get(0).getProperties()) {
+            System.out.println(field);
+        }
+
+
+
+
+
+
+
 
 
 

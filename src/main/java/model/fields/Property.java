@@ -16,6 +16,10 @@ public class Property extends BuyableField {
         this.hotel = hotel;
     }
 
+    /**
+     * Helper for toString()
+     * @return String saying if a property is owned
+     */
     private String isPropertyOwned(){
         if (!isOwned()){
             return "not owned";
@@ -23,6 +27,10 @@ public class Property extends BuyableField {
             return "owned";
     }
 
+    /**
+     * Helper for toString()
+     * @return String saying if a property has a hotel
+     */
     private String hotelOnProperty(){
         if (!isHotel()){
             return "no hotel";
