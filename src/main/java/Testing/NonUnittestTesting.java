@@ -21,6 +21,7 @@ public class NonUnittestTesting {
         SetupGame setupGame = new SetupGame();
         ChanceField chanceField = new ChanceField();
         JailLogik jailLogik = new JailLogik();
+        BreweryLogic breweryLogic = new BreweryLogic();
 
 //        setupGame.createGame(board.getBoard(),board.getChancePile());
 
@@ -58,7 +59,7 @@ public class NonUnittestTesting {
                         testTUI(input,board,setupGame);
                         break;
                     case 7:
-                        testBreweryLogic(input,board,setupGame);
+                        testBreweryLogic(input,board,setupGame,breweryLogic);
                         break;
                     case 8:
                         break;
@@ -291,49 +292,115 @@ public class NonUnittestTesting {
         }
     }
 
-    private static void testBreweryLogic(Scanner scanner, Board board, SetupGame setupGame){
+    private static void testBreweryLogic(Scanner scanner, Board board, SetupGame setupGame, BreweryLogic breweryLogic){
 
         System.out.println("Creating game board!!");
         setupGame.createGame(board.getBoard(),board.getChancePile());
 
+
         System.out.println("Creating 2 players!!");
         for (int i = 0; i < 2; i++) {
-            Player player = new Player(scanner.next(),4000,0,false);
+            Player player = new Player(scanner.next(),8000,0,false);
             board.getPlayers().add(player);
         }
 
-        while (true){
+        Player p1 = board.getPlayers().get(0);
+        p1.chooceDice(6);
+        Player p2 = board.getPlayers().get(1);
+        p2.chooceDice(6);
 
-            System.out.println("Setting the first player on the Coca cola field!");
-            board.getPlayers().get(0).setPosition(12);
-            System.out.println(board.getPlayers().get(0).getName() + "'s position on the board is: " + board.getPlayers().get(0).getPosition());
+        BuyableField cocaCola = (BuyableField) board.getBoard()[12];
+        BuyableField tuborg = (BuyableField) board.getBoard()[28];
 
-            if (!((Brewery) board.getBoard()[12]).isOwned()){
+        do {
 
-                System.out.println("Adding property to " + board.getPlayers().get(0).getName() + "'s properties!");
-                board.getPlayers().get(0).getProperties().add((BuyableField) board.getBoard()[12]);
-                ((Brewery) board.getBoard()[12]).setOwned(true);
-                break;
+            System.out.println("Setting " + p1.getName() + " on the Coca cola field!");
+            p1.setPosition(12);
 
-            }else {
-                System.out.println("Another player owns this property");
-            }
+        } while (addPropertyMainFunction(p1, cocaCola));
+
+        System.out.println(p1.getName() + " now has " + p1.getWalletAmount() + " in his wallet!");
+
+        System.out.println("Printing " + p1.getName() + "'s properties:");
+        for (BuyableField field: p1.getProperties()) {
+            System.out.println(field);
         }
 
-        System.out.println("Printing all properties:");
-        for (BuyableField field: board.getPlayers().get(0).getProperties()) {
+        //Throwing dice and setting the second player on the Coca Cola field
+
+        p2.throwDice();
+        System.out.println(p2.yourRoll());
+
+        System.out.println("Player: " + p2.getName() + ", lands on :\n" + board.getBoard()[12]);
+        p2.setPosition(12);
+
+        if (cocaCola.isOwned()){
+
+            System.out.println("The Coca Cola Brewery is owned by: " + p1.getName());
+            System.out.println(p2.getName() + " needs to pay: " + p2.getCurrentRoll() + " * 100!");
+            breweryLogic.payHundredTimes(p2, p1);
+
+        }
+
+        System.out.println(p2.getName() + " now has: " + p2.getWalletAmount() + " in his wallet!");
+        System.out.println(p1.getName() + " now has: " + p1.getWalletAmount() + " in his wallet!");
+
+        //Setting the first player on the Tuborg field and purchasing it
+
+        do {
+
+            System.out.println("Setting " + p1.getName() + " on the Tuborg field!");
+            p1.setPosition(28);
+
+        } while (addPropertyMainFunction(p1, tuborg));
+
+        System.out.println("Printing " + p1.getName() + "'s properties:");
+        for (BuyableField field: p1.getProperties()) {
             System.out.println(field);
         }
 
 
 
 
+        //Setting the second player on the Tuborg field
 
 
 
 
+    }
 
+    /**
+     * Helper method for testBreweryLogic() to avoid duplicate code
+     */
+    private static boolean addPropertyMainFunction(Player p1, BuyableField field) {
+        addPositionInfo(p1);
 
+        if (!(field.isOwned())){
+
+            addPropertyInfo(p1,field);
+            p1.setWalletAmount(p1.getWalletAmount() - field.getPrice());
+            p1.getProperties().add(field);
+            field.setOwned(true);
+            field.setOwner(p1);
+            return false;
+
+        }else {
+            System.out.println("Another player owns this property");
+        }
+        return true;
+    }
+
+    /**
+     * Helper method for testBreweryLogic() to avoid duplicate code
+     */
+    private static void addPropertyInfo(Player player,BuyableField buyableField){
+        System.out.println("Adding property to " + player.getName() + "'s properties for the price of: " + buyableField.getPrice() + "kr");
+    }
+    /**
+     * Helper method for testBreweryLogic() to avoid duplicate code
+     */
+    private static void addPositionInfo(Player p1){
+        System.out.println(p1.getName() + "'s position on the board is: " + p1.getPosition());
     }
 
     private static void testPayTaxLogic(){

@@ -56,6 +56,7 @@ public class Property extends BuyableField {
                 "               The property has " + hotelOnProperty() + "\n" +
                 "               The property is " + isPropertyOwned() + " by a player! \n" +
                 "               The property can be pawned for " + getPawnValue() + " kr\n" +
+                "               The property is owned by: " + getOwner() + "\n" +
                 "-------------------------------------------------------------------------------- \n";
     }
 

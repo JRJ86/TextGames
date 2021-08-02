@@ -18,6 +18,7 @@ public class ShippingCompany extends BuyableField {
                 "               Own 2 Shipping Companies and rent is: " + rents[2] + " kr\n" +
                 "               Own 2 Shipping Companies and rent is: " + rents[3] + " kr\n\n" +
                 "               You can pawn it for: " + getPawnValue() + " kr\n" +
+                "               The Shipping company is owned by: " + getOwner() + "\n" +
                 "-------------------------------------------------------------------------------- \n";
     }
 

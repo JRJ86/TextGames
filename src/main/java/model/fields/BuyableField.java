@@ -1,10 +1,13 @@
 package model.fields;
 
+import model.Player;
+
 public abstract class BuyableField extends Field {
 
     private int price;
     private int pawnValue;
     private boolean owned;
+    private Player owner;
 
     //---------------------- Getters & Setters -------------------------------------------------------------------------
 
@@ -30,5 +33,13 @@ public abstract class BuyableField extends Field {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public Player getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Player owner) {
+        this.owner = owner;
     }
 }

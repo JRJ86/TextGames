@@ -34,13 +34,20 @@ public class Player {
         currentRoll = diceCup.getDice1().getValue() + diceCup.getDice2().getValue();
     }
 
+    /**
+     * @return The individual dice values and the total current roll
+     */
     public String yourRoll(){
-        return "You rolled " + diceCup.getDice1().getValue() +
+        return this.name + " rolled: " + diceCup.getDice1().getValue() +
                 " and " + diceCup.getDice2().getValue()
                 + "\n" +
-                "You rolled " + currentRoll + " in total!!";
+                "Total roll: " + currentRoll;
     }
 
+    /**
+     * TODO
+     * @return
+     */
     @Override
     public String toString() {
         return "Player{" +
