@@ -285,7 +285,6 @@ public class NonUnittestTesting {
                 for (int i = 0; i < board.getPlayers().size(); i++) {
                     Player player = board.getPlayers().get(i);
                     TUI.turnMenu(player,board);
-                    Thread.sleep(500);
 
                 }
             }
@@ -331,14 +330,14 @@ public class NonUnittestTesting {
         p2.throwDice();
         System.out.println(p2.yourRoll());
 
-        System.out.println("Player: " + p2.getName() + ", lands on :\n" + board.getBoard()[12]);
+        System.out.println("Player: " + p2.getName() + ", lands on :\n" + cocaCola);
         p2.setPosition(12);
 
         if (cocaCola.isOwned()){
 
-            System.out.println("The Coca Cola Brewery is owned by: " + p1.getName());
-            System.out.println(p2.getName() + " needs to pay: " + p2.getCurrentRoll() + " * 100!");
-            breweryLogic.payHundredTimes(p2, p1);
+            System.out.println("The Coca Cola Brewery is owned by: " + cocaCola.getOwner().getName());
+
+            payBreweryRent(breweryLogic, p1, p2, cocaCola);
 
         }
 
@@ -359,14 +358,43 @@ public class NonUnittestTesting {
             System.out.println(field);
         }
 
+        // Throw dice and setting the second player on the Tuborg field
 
+        p2.throwDice();
+        System.out.println(p2.yourRoll());
 
+        System.out.println("Player " + p2.getName() + " lands on:\n" + tuborg);
+        p2.setPosition(28);
 
-        //Setting the second player on the Tuborg field
+        if (tuborg.isOwned()){
 
+            System.out.println("The Tuborg brewery is owned by: " + tuborg.getOwner().getName());
 
+            payBreweryRent(breweryLogic, p1, p2, tuborg);
 
+        }
 
+        System.out.println(p2.getName() + " now has: " + p2.getWalletAmount() + " in his wallet!");
+        System.out.println(p1.getName() + " now has: " + p1.getWalletAmount() + " in his wallet!");
+
+    }
+
+    private static void payBreweryRent(BreweryLogic breweryLogic, Player p1, Player p2, BuyableField brewery) {
+        int breweries = 0;
+
+        for (BuyableField field: brewery.getOwner().getProperties()) {
+            if (field instanceof Brewery){
+                breweries = breweries + 1;
+            }
+        }
+
+        if (breweries == 1){
+            System.out.println(p2.getName() + " needs to pay " + p2.getCurrentRoll() + " * 100");
+            breweryLogic.payHundredTimes(p2,p1);
+        }else if (breweries == 2){
+            System.out.println(p2.getName() + " needs to pay " + p2.getCurrentRoll() + " * 200");
+            breweryLogic.payTwoHundredTimes(p2,p1);
+        }
     }
 
     /**
