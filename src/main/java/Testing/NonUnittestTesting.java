@@ -19,11 +19,8 @@ public class NonUnittestTesting {
         Scanner input = new Scanner(System.in);
         Board board = new Board();
         SetupGame setupGame = new SetupGame();
-        ChanceField chanceField = new ChanceField();
         JailLogik jailLogik = new JailLogik();
         BreweryLogic breweryLogic = new BreweryLogic();
-
-//        setupGame.createGame(board.getBoard(),board.getChancePile());
 
         while (true){
 
@@ -166,17 +163,17 @@ public class NonUnittestTesting {
     private static void testProperty(Player player){
         System.out.println("Testing the properties list and creation of objects");
 
-        Property field = new Property("red", new int[]{5,10,20,30,40,100},100,0, false);
+        Property field = new Property("red", new int[]{5,10,20,30,40,100},100,0);
         field.setName("Voldens kvarter 1");
         field.setPawnValue(30);
         field.setOwned(false);
 
-        Property field1 = new Property("red", new int[]{5,10,20,30,40,100},100,0, false);
+        Property field1 = new Property("red", new int[]{5,10,20,30,40,100},100,0);
         field1.setName("Voldens kvarter 2");
         field1.setPawnValue(100);
         field1.setOwned(false);
 
-        Property field2 = new Property("red", new int[]{5,10,20,30,40,100},100,0, false);
+        Property field2 = new Property("red", new int[]{5,10,20,30,40,100},100,0);
         field2.setName("Voldens kvarter 3");
         field2.setPawnValue(200);
         field2.setOwned(false);
@@ -193,6 +190,8 @@ public class NonUnittestTesting {
 
         System.out.println(r);
     }
+
+    //------------------ TUI testing -----------------------------------------------------------------------------------
 
     private static void testTUI(Scanner scanner, Board board, SetupGame setupGame) throws InterruptedException {
 
@@ -291,6 +290,8 @@ public class NonUnittestTesting {
         }
     }
 
+    //------------------ BreweryLogic testing --------------------------------------------------------------------------
+
     private static void testBreweryLogic(Scanner scanner, Board board, SetupGame setupGame, BreweryLogic breweryLogic){
 
         System.out.println("Creating game board!!");
@@ -379,6 +380,9 @@ public class NonUnittestTesting {
 
     }
 
+    /**
+     * Helper method for testBreweryLogic() to avoid duplicate code
+     */
     private static void payBreweryRent(BreweryLogic breweryLogic, Player p1, Player p2, BuyableField brewery) {
         int breweries = 0;
 
@@ -430,6 +434,8 @@ public class NonUnittestTesting {
     private static void addPositionInfo(Player p1){
         System.out.println(p1.getName() + "'s position on the board is: " + p1.getPosition());
     }
+
+    //------------------------- PayTaxLogic testing --------------------------------------------------------------------
 
     private static void testPayTaxLogic(){
 

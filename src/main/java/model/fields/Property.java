@@ -6,14 +6,12 @@ public class Property extends BuyableField {
     private int[] rents;
     private int houseCost;
     private int houses;
-    private boolean hotel;
 
-    public Property(String color, int[] rents, int houseCost, int houses, boolean hotel) {
+    public Property(String color, int[] rents, int houseCost, int houses) {
         this.color = color;
         this.rents = rents;
         this.houseCost = houseCost;
         this.houses = houses;
-        this.hotel = hotel;
     }
 
     /**
@@ -31,12 +29,23 @@ public class Property extends BuyableField {
      * Helper for toString()
      * @return String saying if a property has a hotel
      */
-    private String hotelOnProperty(){
-        if (!isHotel()){
-            return "no hotel";
+    private String buildingsOnProperty(Property property){
+        switch (houses){
+            case 0:
+                return property.getName() + " has 0 houses!";
+            case 1:
+                return property.getName() + " has 1 house!";
+            case 2:
+                return property.getName() + " has 2 houses!";
+            case 3:
+                return property.getName() + " has 3 houses!";
+            case 4:
+                return property.getName() + " has 4 houses!";
+            case 5:
+                return property.getName() + " has 1 hotel!";
+            default:
+                return "This should not happen!!!";
         }
-        else
-            return "1 hotel";
     }
 
     @Override
@@ -52,8 +61,7 @@ public class Property extends BuyableField {
                 "               Rent with 1 hotel:  " + rents[5] + " kr\n\n" +
                 "               1 house costs " + houseCost + " kr\n" +
                 "               1 hotel costs " + houseCost + " kr, if the property has 4 houses \n\n" +
-                "               The property has " + houses + " houses \n" +
-                "               The property has " + hotelOnProperty() + "\n" +
+                "               The property has " + buildingsOnProperty(this) + "\n" +
                 "               The property is " + isPropertyOwned() + " by a player! \n" +
                 "               The property can be pawned for " + getPawnValue() + " kr\n" +
                 "               The property is owned by: " + getOwner() + "\n" +
@@ -94,11 +102,4 @@ public class Property extends BuyableField {
         this.houses = houses;
     }
 
-    public boolean isHotel() {
-        return hotel;
-    }
-
-    public void setHotel(boolean hotel) {
-        this.hotel = hotel;
-    }
 }

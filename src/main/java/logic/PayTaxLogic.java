@@ -15,8 +15,7 @@ public class PayTaxLogic {
         int amount = player.getWalletAmount();
         player.setWalletAmount(amount - 4000);
 
-        //TODO: Maybe move this somewhere else
-        //TODO: Test this
+
         if (player.getWalletAmount() < 0){
             System.out.println("Player " + player.getName() + " are broke, and may now pawn some properties");
             if (player.getProperties().isEmpty()){
@@ -29,8 +28,6 @@ public class PayTaxLogic {
         int amount = player.getWalletAmount();
         player.setWalletAmount(amount - 2000);
 
-        //TODO: Maybe move this somewhere else
-        //TODO: Test this
         if (player.getWalletAmount() < 0){
             System.out.println("Player " + player.getName() + " are broke, and may now pawn some properties");
             if (player.getProperties().isEmpty()){

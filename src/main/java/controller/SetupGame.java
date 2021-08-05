@@ -24,6 +24,8 @@ public class SetupGame {
         }
     }
 
+    //--------------------------------- Create board -------------------------------------------------------------------
+
     private void createBoard(Field[] board){
 
         Property property;
@@ -237,27 +239,23 @@ public class SetupGame {
         }
     }
 
+
+
     /**
      * Helper method for the helper method createBoard()
-     *
-     * @param color
-     * @param rents
-     * @param houseCost
-     * @param name
-     * @param price
-     * @param pawnValue
-     * @return
      */
     private Property createProperty(String color, int[] rents, int houseCost,
                                     String name, int price, int pawnValue){
-        Property property = new Property(color,rents,houseCost, 0, false);
+        Property property = new Property(color,rents,houseCost, 0);
         property.setName(name);
         property.setPrice(price);
         property.setPawnValue(pawnValue);
         property.setOwned(false);
         return property;
     }
-
+    /**
+     * Helper method for the helper method createBoard()
+     */
     private ShippingCompany createShippingCompany(String name, int[] rents){
         ShippingCompany shippingCompany = new ShippingCompany(rents);
         shippingCompany.setName(name);
@@ -266,7 +264,9 @@ public class SetupGame {
         shippingCompany.setOwned(false);
         return shippingCompany;
     }
-
+    /**
+     * Helper method for the helper method createBoard()
+     */
     private Brewery createBrewery(String name){
         Brewery brewery = new Brewery();
         brewery.setName(name);
@@ -275,6 +275,8 @@ public class SetupGame {
         brewery.setOwned(false);
         return brewery;
     }
+
+    //--------------------------------- Create chance pile -------------------------------------------------------------
 
     private void createChancePile(Queue<ChanceCard> pile){
 
@@ -362,17 +364,24 @@ public class SetupGame {
         Collections.shuffle((List<?>) pile, new Random());
     }
 
+    /**
+     *  Helper method for createChancePile()
+     */
     private PayMoney createPayMoneyChanceCard(int amount, String description){
         PayMoney payMoney = new PayMoney(amount);
         payMoney.setDescription(description);
         return payMoney;
     }
-
+    /**
+     *  Helper method for createChancePile()
+     */
     private GetMoney createGetMoneyChanceCard(int amount, String description){
         GetMoney getMoney = new GetMoney(amount);
         getMoney.setDescription(description);
         return getMoney;
     }
+
+    //-------------------- Print chance pile and board methods ---------------------------------------------------------
 
     public void printChancePile(Queue<ChanceCard> pile){
         for (ChanceCard item: pile) {
