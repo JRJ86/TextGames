@@ -32,7 +32,8 @@ public class SetupGame {
         ChanceField chanceField;
         ShippingCompany shippingCompany;
         Brewery brewery;
-        PayTaxes payTaxes;
+        PayTax payTaxes;
+        PayExtraTax payExtraTax;
 
         final int boardCount = 40;
 
@@ -58,8 +59,8 @@ public class SetupGame {
                     board[i] = property;
                     break;
                 case 4:
-                    payTaxes = new PayTaxes();
-                    payTaxes.setName("Indkomst skat");
+                    payTaxes = new PayTax();
+                    payTaxes.setName("Tax");
                     board[i] = payTaxes;
                     break;
                 case 5:
@@ -223,9 +224,9 @@ public class SetupGame {
                     board[i] = property;
                     break;
                 case 38:
-                    payTaxes = new PayTaxes();
-                    payTaxes.setName("Extra skat");
-                    board[i] = payTaxes;
+                    payExtraTax = new PayExtraTax();
+                    payExtraTax.setName("Extra Tax");
+                    board[i] = payExtraTax;
                     break;
                 case 39:
                     property = createProperty("purple",new int[]{1000,4000,12000,28000,34000,40000},4000,

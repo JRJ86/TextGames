@@ -3,6 +3,7 @@ package Testing;
 import logic.BreweryLogic;
 import logic.JailLogik;
 import controller.SetupGame;
+import logic.PayTaxLogic;
 import model.Board;
 import model.Player;
 import model.fields.*;
@@ -15,12 +16,13 @@ public class NonUnittestTesting {
 
     public static void test() throws InterruptedException {
 
-        Player p1 = new Player();
-        Scanner input = new Scanner(System.in);
+        Player player = new Player();
+        Scanner scanner = new Scanner(System.in);
         Board board = new Board();
         SetupGame setupGame = new SetupGame();
         JailLogik jailLogik = new JailLogik();
         BreweryLogic breweryLogic = new BreweryLogic();
+        PayTaxLogic payTaxLogic = new PayTaxLogic();
 
         while (true){
 
@@ -34,14 +36,14 @@ public class NonUnittestTesting {
                     "7: Test BreweryLogic methods\n" +
                     "8: Test PayTaxLogic methods\n");
 
-            int choice = input.nextInt();
+            int choice = scanner.nextInt();
             while (true){
                 switch (choice){
                     case 1:
-                        testProperty(p1);
+                        testProperty(player);
                         break;
                     case 2:
-                        testDiceRolling(input,p1);
+                        testDiceRolling(scanner,player);
                         break;
                     case 3:
                         testPrintChancePile(board,setupGame);
@@ -50,15 +52,16 @@ public class NonUnittestTesting {
                         testPrintBoard(setupGame,board);
                         break;
                     case 5:
-                        testGetOutOfJail(board,setupGame,jailLogik,input);
+                        testGetOutOfJail(board,setupGame,jailLogik,scanner);
                         break;
                     case 6:
-                        testTUI(input,board,setupGame);
+                        testTUI(scanner,board,setupGame);
                         break;
                     case 7:
-                        testBreweryLogic(input,board,setupGame,breweryLogic);
+                        testBreweryLogic(scanner,board,setupGame,breweryLogic);
                         break;
                     case 8:
+                        testPayTaxLogic(player,board,setupGame,payTaxLogic,scanner);
                         break;
                     default:
                         System.out.println("Not a valid test number!!");
@@ -68,7 +71,7 @@ public class NonUnittestTesting {
                 System.out.println("If you want to run a different test press 'new'!");
                 System.out.println("If you want to quit press 'exit'! \n");
                 System.out.println("To run test again press random key! \n");
-                String choice2 = input.next();
+                String choice2 = scanner.next();
 
                 if (choice2.equals("new")){
                     break;
@@ -437,8 +440,42 @@ public class NonUnittestTesting {
 
     //------------------------- PayTaxLogic testing --------------------------------------------------------------------
 
-    private static void testPayTaxLogic(){
+    private static void testPayTaxLogic(Player player, Board board, SetupGame setupGame, PayTaxLogic payTaxLogic,Scanner scanner){
 
+        //create board
+
+        //create player, board etc..
+        player = new Player("Jacob",10000,0,false);
+        setupGame.createGame(board.getBoard(), board.getChancePile());
+
+        //move player to first tax field
+        System.out.println("Moving player to field:\n" + board.getBoard()[4]);
+        player.setPosition(4);
+        System.out.println(player.getName() + " is now on the field: \n" + board.getBoard()[player.getPosition()]);
+
+        if (player.getPosition() == 4 && !player.isInJail()){
+            payTaxLogic.payTax(scanner,player);
+        }else {
+            System.out.println(player.getName()+ " is in the wrong position or is in jail!");
+        }
+
+        //print players wallet
+        System.out.println("After " + player.getName() + " landed on the 1th tax field, his wallet contains " + player.getWalletAmount());
+
+        //move player to second tax field
+        System.out.println("Moving player to field:\n" + board.getBoard()[38]);
+        player.setPosition(38);
+        System.out.println(player.getName() + " is now on the field: \n" + board.getBoard()[player.getPosition()]);
+
+        if (player.getPosition() == 38 && !player.isInJail()){
+            payTaxLogic.payExtraTax(player);
+        }else {
+            System.out.println(player.getName()+ " is in the wrong position or is in jail!");
+        }
+
+        //print players wallet
+        System.out.println("After " + player.getName() + " landed on the 1th tax field, his wallet contains " + player.getWalletAmount());
 
     }
 }
+
