@@ -53,12 +53,13 @@ public class Property extends BuyableField {
         return "-------------------------------------------------------------------------------- \n" +
                 "               Property: " + getName() + ", and is " + color + " color\n\n" +
                 "               The price is: " + getPrice() + " kr \n\n" +
-                "               Rent:               " + rents[0] + " kr\n" +
-                "               Rent with 1 house:  " + rents[1] + " kr\n" +
-                "               Rent with 2 houses: " + rents[2] + " kr\n" +
-                "               Rent with 3 houses: " + rents[3] + " kr\n" +
-                "               Rent with 4 houses: " + rents[4] + " kr\n" +
-                "               Rent with 1 hotel:  " + rents[5] + " kr\n\n" +
+                "               Rent:                           " + rents[0] + " kr\n" +
+                "               Rent (owning all of the color): " + rents[1] + " kr\n" +
+                "               Rent with 1 house:              " + rents[2] + " kr\n" +
+                "               Rent with 2 houses:             " + rents[3] + " kr\n" +
+                "               Rent with 3 houses:             " + rents[4] + " kr\n" +
+                "               Rent with 4 houses:             " + rents[5] + " kr\n" +
+                "               Rent with 1 hotel:              " + rents[6] + " kr\n\n" +
                 "               1 house costs " + houseCost + " kr\n" +
                 "               1 hotel costs " + houseCost + " kr, if the property has 4 houses \n\n" +
                 "               The property has " + buildingsOnProperty(this) + "\n" +

@@ -3,6 +3,7 @@ package Testing;
 import logic.BreweryLogic;
 import logic.JailLogik;
 import controller.SetupGame;
+import logic.PayRentLogic;
 import logic.PayTaxLogic;
 import model.Board;
 import model.Player;
@@ -23,6 +24,7 @@ public class NonUnittestTesting {
         JailLogik jailLogik = new JailLogik();
         BreweryLogic breweryLogic = new BreweryLogic();
         PayTaxLogic payTaxLogic = new PayTaxLogic();
+        PayRentLogic payRentLogic = new PayRentLogic();
 
         while (true){
 
@@ -34,7 +36,8 @@ public class NonUnittestTesting {
                     "5: Test JailLogic methods\n" +
                     "6: Test TUI menu's\n" +
                     "7: Test BreweryLogic methods\n" +
-                    "8: Test PayTaxLogic methods\n");
+                    "8: Test PayTaxLogic methods\n" +
+                    "9: Test PayRentLogic methods\n");
 
             int choice = scanner.nextInt();
             while (true){
@@ -61,7 +64,10 @@ public class NonUnittestTesting {
                         testBreweryLogic(scanner,board,setupGame,breweryLogic);
                         break;
                     case 8:
-                        testPayTaxLogic(player,board,setupGame,payTaxLogic,scanner);
+                        testPayTaxLogic(board,setupGame,payTaxLogic,scanner);
+                        break;
+                    case 9:
+                        testPayPropertyRentLogic(setupGame,board,payRentLogic);
                         break;
                     default:
                         System.out.println("Not a valid test number!!");
@@ -440,12 +446,10 @@ public class NonUnittestTesting {
 
     //------------------------- PayTaxLogic testing --------------------------------------------------------------------
 
-    private static void testPayTaxLogic(Player player, Board board, SetupGame setupGame, PayTaxLogic payTaxLogic,Scanner scanner){
-
-        //create board
+    private static void testPayTaxLogic(Board board, SetupGame setupGame, PayTaxLogic payTaxLogic, Scanner scanner){
 
         //create player, board etc..
-        player = new Player("Jacob",10000,0,false);
+        Player player = new Player("Jacob", 10000, 0, false);
         setupGame.createGame(board.getBoard(), board.getChancePile());
 
         //move player to first tax field
@@ -454,7 +458,7 @@ public class NonUnittestTesting {
         System.out.println(player.getName() + " is now on the field: \n" + board.getBoard()[player.getPosition()]);
 
         if (player.getPosition() == 4 && !player.isInJail()){
-            payTaxLogic.payTax(scanner,player);
+            payTaxLogic.payTax(scanner, player);
         }else {
             System.out.println(player.getName()+ " is in the wrong position or is in jail!");
         }
@@ -477,5 +481,170 @@ public class NonUnittestTesting {
         System.out.println("After " + player.getName() + " landed on the 1th tax field, his wallet contains " + player.getWalletAmount());
 
     }
+
+    //--------------------- Pay property rent logic test ---------------------------------------------------------------
+
+    private static void testPayPropertyRentLogic(SetupGame setupGame, Board board, PayRentLogic payRentLogic){
+
+        //Make 4 players, board and Property's
+
+        Property blue1, blue2, skin1, skin2, skin3, green1, green2, green3;
+
+        setupGame.createGame(board.getBoard(), board.getChancePile());
+        Player player1 = new Player("Jacob",20000,0,false);
+        Player player2 = new Player("Stella",20000,0,false);
+        Player player3 = new Player("Valdemar",20000,0,false);
+        Player player4 = new Player("Leonora",20000,0,false);
+
+        //Give 3 players som properties
+        //player 2 gets 1 property
+        //player 3 gets all properties with same color
+        //player 4 gets all properties with same color and some houses
+        //--------------------------------------------------------------------------------------------------------------
+
+        Property[] blueProperties = giveProperty(new Property[]{null,null},player2,board,new int[]{1,3});
+
+        blue1 = blueProperties[0];
+        blue2 = blueProperties[1];
+
+        System.out.println(player2.getName() + "'s property list, has size of: " + player2.getProperties().size() + "\n" +
+                            "The properties color is: " + blue1.getColor() + "\n" +
+                            "The properties are: " + blue1.getName() + " and " + blue2.getName() + "\n" +
+                            "The rent for landing on " + blue2.getColor() + " is: " + payRentLogic.showPropertyRent(blue1,player2) + "\n");
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        Property[] skinProperties = giveProperty(new Property[]{null, null, null},player3,board,new int[]{6,8,9});
+
+        skin1 = skinProperties[0];
+        skin2 = skinProperties[1];
+        skin3 = skinProperties[2];
+
+        System.out.println(player3.getName() + "'s property list has size of: " + player3.getProperties().size() + "\n" +
+                            "The properties color are: \n" +
+                            skin1.getName() + " is: " + skin1.getColor() + "\n" +
+                            skin2.getName() + " is: " + skin2.getColor() + "\n" +
+                            skin3.getName() + " is: " + skin3.getColor() + "\n" +
+                            "The rent for landing on a property with color '" + skin3.getColor() + "' is now:\n" +
+                            payRentLogic.showPropertyRent(skin1,player3) + " kr, for " + skin1.getName() + " or " + skin2.getName()  + "\n" +
+                            payRentLogic.showPropertyRent(skin3,player3) + " kr, for " + skin3.getName() + "\n");
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        Property[] greenProperties = giveProperty(new Property[]{null,null,null},player4,board,new int[]{11,13,14});
+
+        green1 = greenProperties[0];
+        green2 = greenProperties[1];
+        green3 = greenProperties[2];
+
+        System.out.println(player4.getName() + "'s property list has size of: " + player4.getProperties().size() + "\n" +
+                            "The properties color are: \n" +
+                            green1.getName() + " is: " + green1.getColor() + "\n" +
+                            green2.getName() + " is: " + green2.getColor() + "\n" +
+                            green3.getName() + " is: " + green3.getColor() + "\n" +
+                            "The rent for landing on a property with color '" + green3.getColor() + "' is now:\n" +
+                            payRentLogic.showPropertyRent(green1,player4) + " kr, for " + green1.getName() + " or " + green2.getName()  + "\n" +
+                            payRentLogic.showPropertyRent(green3,player4) + " kr, for " + green3.getName() + "\n");
+
+        System.out.println("Putting some houses on " + player4.getName() + "'s properties\n");
+
+        green1.setHouses(1);
+        green2.setHouses(2);
+        green3.setHouses(3);
+
+        System.out.println("The rent for " + player4.getName() + "'s properties is now:\n" +
+                            green1.getName() + " has " + green1.getHouses() + " house\n" +
+                            green2.getName() + " has " + green2.getHouses() + " houses\n" +
+                            green3.getName() + " has " + green3.getHouses() + " houses\n" +
+                            green1.getName() + " has a rent of " + payRentLogic.showPropertyRent(green1,player4) + " kr\n" +
+                            green2.getName() + " has a rent of " + payRentLogic.showPropertyRent(green2,player4) + " kr\n" +
+                            green3.getName() + " has a rent of " + payRentLogic.showPropertyRent(green3,player4) + " kr\n");
+
+        //Move player 1 to the first player's property's and charge him rent
+        System.out.println("Moving " + player1.getName() + " to " + blue1.getName() + " which is position " + blue1.getPosition() + " on the board!\n" +
+                            blue1.getName() + " has a rent of: " + payRentLogic.showPropertyRent(blue1,blue1.getOwner()) + "\n");
+        player1.setPosition(blue1.getPosition());
+
+        System.out.println(player1.getName() + "'s position is now " + player1.getPosition() + "\n");
+
+        System.out.println("Time to pay rent!\n");
+
+        payRentLogic.payPropertyRent(player1, blue1.getOwner(), blue1);
+
+        System.out.println(player1.getName() + "'s wallet contains " + player1.getWalletAmount() + "\n" +
+                            player2.getName() + "'s wallet contains " + player2.getWalletAmount() + "\n");
+
+
+        //Move player 1 to the second players property and charge him rent
+
+        player1.setPosition(skin1.getPosition());
+        System.out.println("Moving " + player1.getName() + " to the first '" + skin1.getColor() + "' field, and charging rent.\n" +
+                skin1.getName() + " has a position on the board now of " + skin1.getPosition() + "\n" +
+                            "The owner of " + skin1.getName() + " is " + skin1.getOwner().getName() + "\n" +
+                            "The rent is: " + payRentLogic.showPropertyRent(skin1,skin1.getOwner()) + "\n");
+
+        System.out.println("Time to pay rent!\n");
+
+        payRentLogic.payPropertyRent(player1, skin1.getOwner(), skin1);
+
+        System.out.println(player1.getName() + " has " + player1.getWalletAmount() + " in his wallet!\n" +
+                skin1.getOwner().getName() + " has " + skin1.getOwner().getWalletAmount() + " in the wallet!\n");
+
+        player1.setPosition(skin3.getPosition());
+
+        System.out.println("Moving " + player1.getName() + " to the third '" + skin3.getColor() + "' field, and charging rent.\n" +
+                skin3.getName() + " has a position on the board now of " + skin3.getPosition() + "\n" +
+                "The owner of " + skin3.getName() + " is " + skin3.getOwner().getName() + "\n" +
+                "The rent is: " + payRentLogic.showPropertyRent(skin3, skin3.getOwner()) + "\n");
+
+        System.out.println("Time to pay rent!\n");
+
+        payRentLogic.payPropertyRent(player1,skin3.getOwner(),skin3);
+
+        System.out.println(player1.getName() + " has " + player1.getWalletAmount() + " in his wallet!\n" +
+                skin3.getOwner().getName() + " has " + skin3.getOwner().getWalletAmount() + " in the wallet!\n");
+
+
+        //Move player 1 to the third players property and charge him rent
+
+        player1.setPosition(green1.getPosition());
+        System.out.println("Moving " + player1.getName() + " to the first '" + green1.getColor() + "' field, and charging rent.\n" +
+                green1.getName() + " has a position on the board now of " + green1.getPosition() + "\n" +
+                "The owner of " + green1.getName() + " is " + green1.getOwner().getName() + "\n" +
+                "The rent is: " + payRentLogic.showPropertyRent(green1, green1.getOwner()) + "\n");
+
+        System.out.println("Time to pay rent!\n");
+
+        payRentLogic.payPropertyRent(player1, green1.getOwner(), green1);
+
+        System.out.println(player1.getName() + " has " + player1.getWalletAmount() + " in his wallet!\n" +
+                green1.getOwner().getName() + " has " + green1.getOwner().getWalletAmount() + " in the wallet!\n");
+
+        //TODO try with more houses and a hotel
+
+
+
+    }
+    private static Property[] giveProperty(Property[] properties, Player player, Board board, int[] fieldNumbers){
+
+        System.out.println("Giving " + player.getName() + " a set of properties with same color!\n");
+
+        for (int i = 0; i < properties.length; i++) {
+            player.getProperties().add((BuyableField) board.getBoard()[fieldNumbers[i]]);
+            properties[i] = (Property) player.getProperties().get(i);
+            properties[i].setOwner(player);
+
+        }
+        return properties;
+    }
+
+    //------------------------------- Pay Shipping company rent logic test ---------------------------------------------
+
+    private static void testPayShippingCompanyRentLogic(){
+
+
+    }
+
+
 }
 
