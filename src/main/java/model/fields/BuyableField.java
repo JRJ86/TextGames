@@ -8,6 +8,7 @@ public abstract class BuyableField extends Field {
     private int pawnValue;
     private boolean owned;
     private Player owner;
+    private boolean pawned;
 
     //---------------------- Getters & Setters -------------------------------------------------------------------------
 
@@ -41,5 +42,13 @@ public abstract class BuyableField extends Field {
 
     public void setOwner(Player owner) {
         this.owner = owner;
+    }
+
+    public boolean isPawned() {
+        return pawned;
+    }
+
+    public void setPawned(boolean pawned) {
+        this.pawned = pawned;
     }
 }

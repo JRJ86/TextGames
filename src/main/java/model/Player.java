@@ -41,7 +41,7 @@ public class Player {
         return this.name + " rolled: " + diceCup.getDice1().getValue() +
                 " and " + diceCup.getDice2().getValue()
                 + "\n" +
-                "Total roll: " + currentRoll;
+                "Total roll: " + currentRoll + "\n";
     }
 
     /**

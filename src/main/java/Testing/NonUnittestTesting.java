@@ -1,6 +1,6 @@
 package Testing;
 
-import logic.BreweryLogic;
+import logic.BuyFieldLogic;
 import logic.JailLogik;
 import controller.SetupGame;
 import logic.PayRentLogic;
@@ -22,9 +22,9 @@ public class NonUnittestTesting {
         Board board = new Board();
         SetupGame setupGame = new SetupGame();
         JailLogik jailLogik = new JailLogik();
-        BreweryLogic breweryLogic = new BreweryLogic();
         PayTaxLogic payTaxLogic = new PayTaxLogic();
         PayRentLogic payRentLogic = new PayRentLogic();
+        BuyFieldLogic buyFieldLogic = new BuyFieldLogic();
 
         while (true){
 
@@ -61,7 +61,7 @@ public class NonUnittestTesting {
                         testTUI(scanner,board,setupGame);
                         break;
                     case 7:
-                        testBreweryLogic(scanner,board,setupGame,breweryLogic);
+                        testBreweryLogic(scanner,board,setupGame,payRentLogic, buyFieldLogic);
                         break;
                     case 8:
                         testPayTaxLogic(board,setupGame,payTaxLogic,scanner);
@@ -301,147 +301,118 @@ public class NonUnittestTesting {
 
     //------------------ BreweryLogic testing --------------------------------------------------------------------------
 
-    private static void testBreweryLogic(Scanner scanner, Board board, SetupGame setupGame, BreweryLogic breweryLogic){
+    private static void testBreweryLogic(Scanner scanner, Board board, SetupGame setupGame, PayRentLogic payRentLogic, BuyFieldLogic buyFieldLogic){
 
-        System.out.println("Creating game board!!");
+//        do {
+//
+//            System.out.println("Setting " + p1.getName() + " on the Coca cola field!");
+//            p1.setPosition(12);
+//
+//        } while (addPropertyMainFunction(p1, cocaCola));
+//
+//        System.out.println(p1.getName() + " now has " + p1.getWalletAmount() + " in his wallet!");
+//
+//        System.out.println("Printing " + p1.getName() + "'s properties:");
+//        for (BuyableField field: p1.getProperties()) {
+//            System.out.println(field);
+//        }
+//
+//        //Throwing dice and setting the second player on the Coca Cola field
+//
+//        p2.throwDice();
+//        System.out.println(p2.yourRoll());
+//
+//        System.out.println("Player: " + p2.getName() + ", lands on :\n" + cocaCola);
+//        p2.setPosition(12);
+//
+//        if (cocaCola.isOwned()){
+//
+//            System.out.println("The Coca Cola Brewery is owned by: " + cocaCola.getOwner().getName());
+//
+//            payBreweryRent(breweryLogic, p1, p2, cocaCola);
+//
+//        }
+//
+//        System.out.println(p2.getName() + " now has: " + p2.getWalletAmount() + " in his wallet!");
+//        System.out.println(p1.getName() + " now has: " + p1.getWalletAmount() + " in his wallet!");
+//
+//        //Setting the first player on the Tuborg field and purchasing it
+
+//        do {
+//
+//            System.out.println("Setting " + p1.getName() + " on the Tuborg field!");
+//            p1.setPosition(28);
+//
+//        } while (addPropertyMainFunction(p1, tuborg));
+//
+//        System.out.println("Printing " + p1.getName() + "'s properties:");
+//        for (BuyableField field: p1.getProperties()) {
+//            System.out.println(field);
+//        }
+//
+//        // Throw dice and setting the second player on the Tuborg field
+//
+//        p2.throwDice();
+//        System.out.println(p2.yourRoll());
+//
+//        System.out.println("Player " + p2.getName() + " lands on:\n" + tuborg);
+//        p2.setPosition(28);
+//
+//        if (tuborg.isOwned()){
+//
+//            System.out.println("The Tuborg brewery is owned by: " + tuborg.getOwner().getName());
+//
+//            payBreweryRent(breweryLogic, p1, p2, tuborg);
+//
+//        }
+//
+//        System.out.println(p2.getName() + " now has: " + p2.getWalletAmount() + " in his wallet!");
+//        System.out.println(p1.getName() + " now has: " + p1.getWalletAmount() + " in his wallet!");
+
+        System.out.println("Creating game board!\n");
         setupGame.createGame(board.getBoard(),board.getChancePile());
 
+        System.out.println("Creating 2 players!\n");
+        Player p1 = new Player("Jacob",8000,0,false);
+        Player p2 = new Player("Stella",8000,0,false);
+        board.getPlayers().add(p1);
+        board.getPlayers().add(p2);
 
-        System.out.println("Creating 2 players!!");
-        for (int i = 0; i < 2; i++) {
-            Player player = new Player(scanner.next(),8000,0,false);
-            board.getPlayers().add(player);
-        }
-
-        Player p1 = board.getPlayers().get(0);
+        System.out.println("Setting up " + p1.getName() + "'s dice!\n");
         p1.chooceDice(6);
-        Player p2 = board.getPlayers().get(1);
         p2.chooceDice(6);
 
         BuyableField cocaCola = (BuyableField) board.getBoard()[12];
         BuyableField tuborg = (BuyableField) board.getBoard()[28];
 
-        do {
-
-            System.out.println("Setting " + p1.getName() + " on the Coca cola field!");
-            p1.setPosition(12);
-
-        } while (addPropertyMainFunction(p1, cocaCola));
-
-        System.out.println(p1.getName() + " now has " + p1.getWalletAmount() + " in his wallet!");
-
-        System.out.println("Printing " + p1.getName() + "'s properties:");
-        for (BuyableField field: p1.getProperties()) {
-            System.out.println(field);
-        }
-
-        //Throwing dice and setting the second player on the Coca Cola field
-
-        p2.throwDice();
-        System.out.println(p2.yourRoll());
-
-        System.out.println("Player: " + p2.getName() + ", lands on :\n" + cocaCola);
-        p2.setPosition(12);
+        System.out.println("Placing " + p1.getName() + " on " + cocaCola.getName() + " field and buying it!\n");
+        p1.setPosition(cocaCola.getPosition());
 
         if (cocaCola.isOwned()){
-
-            System.out.println("The Coca Cola Brewery is owned by: " + cocaCola.getOwner().getName());
-
-            payBreweryRent(breweryLogic, p1, p2, cocaCola);
-
+            System.out.println(cocaCola.getName() + " is already owned! An error has occurred!");
+            System.exit(-1);
+        }else {
+            buyFieldLogic.buyField(p1,cocaCola);
         }
 
-        System.out.println(p2.getName() + " now has: " + p2.getWalletAmount() + " in his wallet!");
-        System.out.println(p1.getName() + " now has: " + p1.getWalletAmount() + " in his wallet!");
+        System.out.println(p1.getName() + " property list has a size of " + p1.getProperties().size() + "\n" +
+                           p1.getName() + " property list contains the following:\n" + p1.getProperties() + "\n" +
+                           p1.getName() + "'s wallet contains now " + p1.getWalletAmount() + "\n");
 
-        //Setting the first player on the Tuborg field and purchasing it
-
-        do {
-
-            System.out.println("Setting " + p1.getName() + " on the Tuborg field!");
-            p1.setPosition(28);
-
-        } while (addPropertyMainFunction(p1, tuborg));
-
-        System.out.println("Printing " + p1.getName() + "'s properties:");
-        for (BuyableField field: p1.getProperties()) {
-            System.out.println(field);
-        }
-
-        // Throw dice and setting the second player on the Tuborg field
+        System.out.println(p2.getName() + " is throwing his dice\n");
 
         p2.throwDice();
         System.out.println(p2.yourRoll());
 
-        System.out.println("Player " + p2.getName() + " lands on:\n" + tuborg);
-        p2.setPosition(28);
+        System.out.println("Moving " + p2.getName() + " to the " + cocaCola.getName() + " field \n");
 
-        if (tuborg.isOwned()){
 
-            System.out.println("The Tuborg brewery is owned by: " + tuborg.getOwner().getName());
 
-            payBreweryRent(breweryLogic, p1, p2, tuborg);
 
-        }
 
-        System.out.println(p2.getName() + " now has: " + p2.getWalletAmount() + " in his wallet!");
-        System.out.println(p1.getName() + " now has: " + p1.getWalletAmount() + " in his wallet!");
 
-    }
 
-    /**
-     * Helper method for testBreweryLogic() to avoid duplicate code
-     */
-    private static void payBreweryRent(BreweryLogic breweryLogic, Player p1, Player p2, BuyableField brewery) {
-        int breweries = 0;
 
-        for (BuyableField field: brewery.getOwner().getProperties()) {
-            if (field instanceof Brewery){
-                breweries = breweries + 1;
-            }
-        }
-
-        if (breweries == 1){
-            System.out.println(p2.getName() + " needs to pay " + p2.getCurrentRoll() + " * 100");
-            breweryLogic.payHundredTimes(p2,p1);
-        }else if (breweries == 2){
-            System.out.println(p2.getName() + " needs to pay " + p2.getCurrentRoll() + " * 200");
-            breweryLogic.payTwoHundredTimes(p2,p1);
-        }
-    }
-
-    /**
-     * Helper method for testBreweryLogic() to avoid duplicate code
-     */
-    private static boolean addPropertyMainFunction(Player p1, BuyableField field) {
-        addPositionInfo(p1);
-
-        if (!(field.isOwned())){
-
-            addPropertyInfo(p1,field);
-            p1.setWalletAmount(p1.getWalletAmount() - field.getPrice());
-            p1.getProperties().add(field);
-            field.setOwned(true);
-            field.setOwner(p1);
-            return false;
-
-        }else {
-            System.out.println("Another player owns this property");
-        }
-        return true;
-    }
-
-    /**
-     * Helper method for testBreweryLogic() to avoid duplicate code
-     */
-    private static void addPropertyInfo(Player player,BuyableField buyableField){
-        System.out.println("Adding property to " + player.getName() + "'s properties for the price of: " + buyableField.getPrice() + "kr");
-    }
-    /**
-     * Helper method for testBreweryLogic() to avoid duplicate code
-     */
-    private static void addPositionInfo(Player p1){
-        System.out.println(p1.getName() + "'s position on the board is: " + p1.getPosition());
     }
 
     //------------------------- PayTaxLogic testing --------------------------------------------------------------------
