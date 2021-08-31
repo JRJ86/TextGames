@@ -184,7 +184,7 @@ public class SetupGame {
                     board[i] = property;
                     break;
                 case 28:
-                    brewery = createBrewery("Tuborg brewery",28);
+                    brewery = createBrewery("Tuborg",28);
                     board[i] = brewery;
                     break;
                 case 29:
@@ -263,6 +263,7 @@ public class SetupGame {
         property.setPawnValue(pawnValue);
         property.setOwned(false);
         property.setPosition(position);
+        property.setPawned(false);
         return property;
     }
     /**
@@ -275,6 +276,7 @@ public class SetupGame {
         shippingCompany.setPawnValue(2000);
         shippingCompany.setOwned(false);
         shippingCompany.setPosition(position);
+        shippingCompany.setPawned(false);
         return shippingCompany;
     }
     /**
@@ -287,6 +289,7 @@ public class SetupGame {
         brewery.setPawnValue(1500);
         brewery.setOwned(false);
         brewery.setPosition(position);
+        brewery.setPawned(false);
         return brewery;
     }
 

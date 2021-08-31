@@ -1,6 +1,5 @@
 package logic;
 
-import model.Board;
 import model.Player;
 import model.fields.Brewery;
 import model.fields.BuyableField;
@@ -13,6 +12,8 @@ public class PayRentLogic {
 
     /**
      * This function gives a player the proper rent when another player lands on the property
+     *
+     * IMPORTANT!! This function does NOT see if the player has enough money to pay the rent
      *
      * @param p1 The player who needs to pay rent
      * @param p2 The player receiving the rent
@@ -171,6 +172,9 @@ public class PayRentLogic {
     // ---------------------------- Shipping Company rent --------------------------------------------------------------
 
     /**
+     * This function handles the rent paying when a player lands on another players Shipping Company
+     *
+     * IMPORTANT!! This function does NOT see if the player has enough money to pay the rent
      *
      * @param p1 The player who needs to pay rent
      * @param p2 The player receiving the rent
@@ -212,14 +216,78 @@ public class PayRentLogic {
 
     }
 
+    public void showShippingCompanyRent(){
+
+    }
+
     // -------------------------------- Brewery rent -------------------------------------------------------------------
 
     /**
      *
-     * @param p1 The player who needs to pay rent
-     * @param p2 The player receiving the rent
+     * Function for paying rent to a Brewery owner on the basis of the paying players
+     * current roll and the Brewery owners amount of Breweries
+     *
+     * IMPORTANT!! This function does NOT see if the player has enough money to pay the rent
+     *
+     * @param visitor The player who needs to pay rent
+     * @param owner The player receiving the rent
+     * @param brewery The Brewery that visitor has landed on
      */
-    public void payBreweryRent(Player p1, Player p2, Brewery brewery){
+    public void payBreweryRent(Player visitor, Player owner, Brewery brewery){
 
+        int count = 1;
+
+        for (BuyableField field: owner.getProperties()) {
+            if (field instanceof Brewery && field != brewery){
+                count++;
+            }
+        }
+
+        switch (count){
+            case 1:
+                int amount1 = visitor.getCurrentRoll() * 100;
+                visitor.setWalletAmount(visitor.getWalletAmount() - amount1);
+                owner.setWalletAmount(owner.getWalletAmount() + amount1);
+                break;
+            case 2:
+                int amount2 = visitor.getCurrentRoll() * 200;
+                visitor.setWalletAmount(visitor.getWalletAmount() - amount2);
+                owner.setWalletAmount(owner.getWalletAmount() + amount2);
+                break;
+            default:
+                System.err.println("This should not happen!!!!");
+                break;
+        }
+    }
+
+    /**
+     * This function returns an Integer value representing what player2 needs to pay
+     * to player1 when seeing how many Breweries player1 has and what player2's current roll is
+     *
+     * @param player1 The player who got the properties
+     * @param player2 The player rolling the dice
+     */
+    public int showBreweryRent(Player player1, Player player2){
+
+        int count = 0;
+
+        for (BuyableField field: player1.getProperties()) {
+            if (field instanceof Brewery){
+                count++;
+            }
+        }
+
+        switch (count){
+            case 0:
+                return 0;
+            case 1:
+                return player2.getCurrentRoll() * 100;
+            case 2:
+                return player2.getCurrentRoll() * 200;
+            default:
+                System.err.println("Error in showBreweryRent() function!!!");
+        }
+
+        return -1;
     }
 }
