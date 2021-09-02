@@ -35,9 +35,10 @@ public class NonUnittestTesting {
                     "4: Print the board\n" +
                     "5: Test JailLogic methods\n" +
                     "6: Test TUI menu's\n" +
-                    "7: Test BreweryLogic methods\n" +
+                    "7: Test pay rent Brewery\n" +
                     "8: Test PayTaxLogic methods\n" +
-                    "9: Test PayRentLogic methods\n");
+                    "9: Test pay rent Property\n" +
+                    "10: Test pay rent ShippingCompany\n");
 
             int choice = scanner.nextInt();
             while (true){
@@ -61,14 +62,16 @@ public class NonUnittestTesting {
                         testTUI(scanner,board,setupGame);
                         break;
                     case 7:
-                        testBreweryLogic(scanner,board,setupGame,payRentLogic, buyFieldLogic);
+                        testPayRentBrewery(board,setupGame,payRentLogic,buyFieldLogic);
                         break;
                     case 8:
                         testPayTaxLogic(board,setupGame,payTaxLogic,scanner);
                         break;
                     case 9:
-                        testPayPropertyRentLogic(setupGame,board,payRentLogic);
+                        testPayRentProperty(setupGame,board,payRentLogic);
                         break;
+                    case 10:
+
                     default:
                         System.out.println("Not a valid test number!!");
                         break;
@@ -301,7 +304,7 @@ public class NonUnittestTesting {
 
     //------------------ BreweryLogic testing --------------------------------------------------------------------------
 
-    private static void testBreweryLogic(Scanner scanner, Board board, SetupGame setupGame, PayRentLogic payRentLogic, BuyFieldLogic buyFieldLogic){
+    private static void testPayRentBrewery(Board board, SetupGame setupGame, PayRentLogic payRentLogic, BuyFieldLogic buyFieldLogic){
 
         System.out.println("Creating game board!\n");
         setupGame.createGame(board.getBoard(),board.getChancePile());
@@ -320,16 +323,16 @@ public class NonUnittestTesting {
         Brewery tuborg = (Brewery) board.getBoard()[28];
 
         System.out.println("Placing " + p1.getName() + " on " + cocaCola.getName() + " field and buying it for " + cocaCola.getPrice() + " kr!\n");
-        helperForTestBreweryLogic(payRentLogic, buyFieldLogic, p1, p2, cocaCola, cocaCola);
+        helperForTestPayRentBrewery(payRentLogic, buyFieldLogic, p1, p2, cocaCola, cocaCola);
 
         System.out.println("Placing " + p1.getName() + " on " + tuborg.getName() + " and purchasing it for " + tuborg.getPrice() + " kr!\n");
-        helperForTestBreweryLogic(payRentLogic, buyFieldLogic, p1, p2, cocaCola, tuborg);
+        helperForTestPayRentBrewery(payRentLogic, buyFieldLogic, p1, p2, cocaCola, tuborg);
 
         System.out.println("Test done!\n");
 
     }
 
-    private static void helperForTestBreweryLogic(PayRentLogic payRentLogic, BuyFieldLogic buyFieldLogic, Player p1, Player p2, Brewery cocaCola, Brewery tuborg) {
+    private static void helperForTestPayRentBrewery(PayRentLogic payRentLogic, BuyFieldLogic buyFieldLogic, Player p1, Player p2, Brewery cocaCola, Brewery tuborg) {
         p1.setPosition(tuborg.getPosition());
 
         if (tuborg.isOwned()){
@@ -402,7 +405,7 @@ public class NonUnittestTesting {
 
     //--------------------- Pay property rent logic test ---------------------------------------------------------------
 
-    private static void testPayPropertyRentLogic(SetupGame setupGame, Board board, PayRentLogic payRentLogic){
+    private static void testPayRentProperty(SetupGame setupGame, Board board, PayRentLogic payRentLogic){
 
         //Make 4 players, board and Property's
 
@@ -495,18 +498,7 @@ public class NonUnittestTesting {
 
         //Move player 1 to the second players property and charge him rent
 
-        player1.setPosition(skin1.getPosition());
-        System.out.println("Moving " + player1.getName() + " to the first '" + skin1.getColor() + "' field, and charging rent.\n" +
-                skin1.getName() + " has a position on the board now of " + skin1.getPosition() + "\n" +
-                            "The owner of " + skin1.getName() + " is " + skin1.getOwner().getName() + "\n" +
-                            "The rent is: " + payRentLogic.showPropertyRent(skin1,skin1.getOwner()) + "\n");
-
-        System.out.println("Time to pay rent!\n");
-
-        payRentLogic.payPropertyRent(player1, skin1.getOwner(), skin1);
-
-        System.out.println(player1.getName() + " has " + player1.getWalletAmount() + " in his wallet!\n" +
-                skin1.getOwner().getName() + " has " + skin1.getOwner().getWalletAmount() + " in the wallet!\n");
+        helperForPayRentLogic(payRentLogic, skin1, player1);
 
         player1.setPosition(skin3.getPosition());
 
@@ -525,24 +517,29 @@ public class NonUnittestTesting {
 
         //Move player 1 to the third players property and charge him rent
 
-        player1.setPosition(green1.getPosition());
-        System.out.println("Moving " + player1.getName() + " to the first '" + green1.getColor() + "' field, and charging rent.\n" +
-                green1.getName() + " has a position on the board now of " + green1.getPosition() + "\n" +
-                "The owner of " + green1.getName() + " is " + green1.getOwner().getName() + "\n" +
-                "The rent is: " + payRentLogic.showPropertyRent(green1, green1.getOwner()) + "\n");
-
-        System.out.println("Time to pay rent!\n");
-
-        payRentLogic.payPropertyRent(player1, green1.getOwner(), green1);
-
-        System.out.println(player1.getName() + " has " + player1.getWalletAmount() + " in his wallet!\n" +
-                green1.getOwner().getName() + " has " + green1.getOwner().getWalletAmount() + " in the wallet!\n");
+        helperForPayRentLogic(payRentLogic, green1, player1);
 
         //TODO try with more houses and a hotel
 
 
 
     }
+
+    private static void helperForPayRentLogic(PayRentLogic payRentLogic, Property skin1, Player player1) {
+        player1.setPosition(skin1.getPosition());
+        System.out.println("Moving " + player1.getName() + " to the first '" + skin1.getColor() + "' field, and charging rent.\n" +
+                skin1.getName() + " has a position on the board now of " + skin1.getPosition() + "\n" +
+                            "The owner of " + skin1.getName() + " is " + skin1.getOwner().getName() + "\n" +
+                            "The rent is: " + payRentLogic.showPropertyRent(skin1,skin1.getOwner()) + "\n");
+
+        System.out.println("Time to pay rent!\n");
+
+        payRentLogic.payPropertyRent(player1, skin1.getOwner(), skin1);
+
+        System.out.println(player1.getName() + " has " + player1.getWalletAmount() + " in his wallet!\n" +
+                skin1.getOwner().getName() + " has " + skin1.getOwner().getWalletAmount() + " in the wallet!\n");
+    }
+
     private static Property[] giveProperty(Property[] properties, Player player, Board board, int[] fieldNumbers){
 
         System.out.println("Giving " + player.getName() + " a set of properties with same color!\n");
@@ -558,9 +555,12 @@ public class NonUnittestTesting {
 
     //------------------------------- Pay Shipping company rent logic test ---------------------------------------------
 
-    private static void testPayShippingCompanyRentLogic(){
+    private static void testPayShippingCompanyRentLogic(SetupGame setupGame, Board board, PayRentLogic payRentLogic){
 
+        //Setting up the test
+        System.out.println("Setting up board");
 
+        //Creating players
     }
 
 

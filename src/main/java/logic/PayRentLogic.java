@@ -216,7 +216,38 @@ public class PayRentLogic {
 
     }
 
-    public void showShippingCompanyRent(){
+    /**
+     * This function will display the rent of a certain shipping company
+     *
+     * @param owner The owner of the ShippingCompany
+     * @param shippingCompany One of the ShippingCompanies
+     * @return The rent calculated from the owner's property list
+     */
+    public int showShippingCompanyRent(Player owner, ShippingCompany shippingCompany){
+
+        int count = 0;
+
+        for (BuyableField field: owner.getProperties()) {
+            if (field instanceof ShippingCompany){
+                count++;
+            }
+        }
+
+        switch (count){
+            case 0:
+                return 0;
+            case 1:
+                return shippingCompany.getRents()[0];
+            case 2:
+                return shippingCompany.getRents()[1];
+            case 3:
+                return shippingCompany.getRents()[2];
+            case 4:
+                return shippingCompany.getRents()[3];
+            default:
+                System.out.println("This is NOT supposed to happen!! logic.PayRentLogic.showShippingCompanyRent");
+                return -1;
+        }
 
     }
 
