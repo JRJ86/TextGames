@@ -30,7 +30,7 @@ public class SetupGame {
 
         Property property;
         ChanceField chanceField;
-        ShippingCompany shippingCompany;
+        FerryCompany ferryCompany;
         Brewery brewery;
         PayTax payTaxes;
         PayExtraTax payExtraTax;
@@ -67,9 +67,9 @@ public class SetupGame {
                     board[i] = payTaxes;
                     break;
                 case 5:
-                    shippingCompany = createShippingCompany("DFDS Seaways",
+                    ferryCompany = createShippingCompany("DFDS Seaways",
                             new int[]{500,1000,2000,4000},5);
-                    board[i] = shippingCompany;
+                    board[i] = ferryCompany;
                     break;
                 case 6:
                     property = createProperty("skin", new int[]{100,200,600,1800,5400,8000,11000},1000,
@@ -117,9 +117,9 @@ public class SetupGame {
                     board[i] = property;
                     break;
                 case 15:
-                    shippingCompany = createShippingCompany("DSB Rederierne KBH",
+                    ferryCompany = createShippingCompany("DSB Rederierne KBH",
                             new int[]{500,1000,2000,4000},15);
-                    board[i] = shippingCompany;
+                    board[i] = ferryCompany;
                     break;
                 case 16:
                     property = createProperty("grey",new int[]{300,600,1400,4000,11000,15000,19000},2000,
@@ -169,9 +169,9 @@ public class SetupGame {
                     board[i] = property;
                     break;
                 case 25:
-                    shippingCompany = createShippingCompany("SFL færgerne",
+                    ferryCompany = createShippingCompany("SFL færgerne",
                             new int[]{500,1000,2000,4000},25);
-                    board[i] = shippingCompany;
+                    board[i] = ferryCompany;
                     break;
                 case 26:
                     property = createProperty("white",new int[]{450,900,2200,6600,16000,19500,23000},3000,
@@ -219,9 +219,9 @@ public class SetupGame {
                     board[i] = property;
                     break;
                 case 35:
-                    shippingCompany = createShippingCompany("DSB Rederierne Jylland",
+                    ferryCompany = createShippingCompany("DSB Rederierne Jylland",
                             new int[]{500,1000,2000,4000},35);
-                    board[i] = shippingCompany;
+                    board[i] = ferryCompany;
                     break;
                 case 36:
                     chanceField = new ChanceField();
@@ -269,15 +269,15 @@ public class SetupGame {
     /**
      * Helper method for the helper method createBoard()
      */
-    private ShippingCompany createShippingCompany(String name, int[] rents, int position){
-        ShippingCompany shippingCompany = new ShippingCompany(rents);
-        shippingCompany.setName(name);
-        shippingCompany.setPrice(4000);
-        shippingCompany.setPawnValue(2000);
-        shippingCompany.setOwned(false);
-        shippingCompany.setPosition(position);
-        shippingCompany.setPawned(false);
-        return shippingCompany;
+    private FerryCompany createShippingCompany(String name, int[] rents, int position){
+        FerryCompany ferryCompany = new FerryCompany(rents);
+        ferryCompany.setName(name);
+        ferryCompany.setPrice(4000);
+        ferryCompany.setPawnValue(2000);
+        ferryCompany.setOwned(false);
+        ferryCompany.setPosition(position);
+        ferryCompany.setPawned(false);
+        return ferryCompany;
     }
     /**
      * Helper method for the helper method createBoard()

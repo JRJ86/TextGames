@@ -1,10 +1,10 @@
 package model.fields;
 
-public class ShippingCompany extends BuyableField {
+public class FerryCompany extends BuyableField {
 
     private int[] rents;
 
-    public ShippingCompany(int[] rents) {
+    public FerryCompany(int[] rents) {
         this.rents = rents;
     }
 

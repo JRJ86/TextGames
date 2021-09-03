@@ -38,7 +38,7 @@ public class NonUnittestTesting {
                     "7: Test pay rent Brewery\n" +
                     "8: Test PayTaxLogic methods\n" +
                     "9: Test pay rent Property\n" +
-                    "10: Test pay rent ShippingCompany\n");
+                    "10: Test pay rent FerryCompany\n");
 
             int choice = scanner.nextInt();
             while (true){
@@ -555,12 +555,54 @@ public class NonUnittestTesting {
 
     //------------------------------- Pay Shipping company rent logic test ---------------------------------------------
 
-    private static void testPayShippingCompanyRentLogic(SetupGame setupGame, Board board, PayRentLogic payRentLogic){
+    private static void testPayFerryCompanyRentLogic(SetupGame setupGame, Board board, PayRentLogic payRentLogic, BuyFieldLogic buyFieldLogic){
 
         //Setting up the test
-        System.out.println("Setting up board");
+        System.out.println("Setting up board!!\n");
+        setupGame.createGame(board.getBoard(), board.getChancePile());
 
         //Creating players
+        System.out.println("Creating the five players!!\n");
+        Player jacob = new Player("Jacob",10000,0,false);
+        Player stella = new Player("Stella",10000,0,false);
+        Player valdemar = new Player("Valdemar",10000,0,false);
+        Player leonora = new Player("Leonora",10000,0,false);
+        Player kida = new Player("Kida",10000,0,false);
+
+        FerryCompany dfds = (FerryCompany) board.getBoard()[5];
+        FerryCompany dsbKBH = (FerryCompany) board.getBoard()[15];
+        FerryCompany sfl = (FerryCompany) board.getBoard()[25];
+        FerryCompany dsbJylland = (FerryCompany) board.getBoard()[35];
+
+        //Moving stella to the first Shipping Company and making stella buy it
+        System.out.println(stella.getName() + " is moving to the first Shipping company, called: " + dfds.getName());
+
+        //Moving player1 to the first shipping company to pay rent
+
+        //Erase player2 and reset player1
+
+        //Making player3 buy two Shipping Companies by moving him to the first and then the second
+
+        //Moving player1 to the second Shipping Company to pay rent
+
+        //Erase player3 and reset player1
+
+        //Making player4 buy three Shipping Companies by moving player4 to the first, the second and then the third
+
+        //Moving player1 to the third Shipping Company to pay rent
+
+        //Erase player4 and reset player1
+
+        //Making player5 buy four Shipping Companies by moving player 5 to the first, the second, the third and then the fourth
+
+        //Moving player1 to the fourth Shipping Company to pay rent
+
+    }
+
+    //------------------------------ Chance card testing ---------------------------------------------------------------
+
+    private static void testChanceCardLogic(){
+
     }
 
 
