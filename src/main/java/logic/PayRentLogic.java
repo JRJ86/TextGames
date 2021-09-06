@@ -176,15 +176,15 @@ public class PayRentLogic {
      *
      * IMPORTANT!! This function does NOT see if the player has enough money to pay the rent
      *
-     * @param p1 The player who needs to pay rent
-     * @param p2 The player receiving the rent
+     * @param visitor The player who needs to pay rent
+     * @param owner The player receiving the rent
      */
-    public void payFerryCompanyRent(Player p1, Player p2, FerryCompany ferryCompany){
+    public void payFerryCompanyRent(Player visitor, Player owner, FerryCompany ferryCompany){
 
         int counter = 1;
 
-        if (p2.getPosition() == ferryCompany.getPosition()){
-            for (BuyableField field: p2.getProperties()) {
+        if (visitor.getPosition() == ferryCompany.getPosition()){
+            for (BuyableField field: owner.getProperties()) {
                 if (field instanceof FerryCompany && field != ferryCompany){
                     counter++;
                 }
@@ -193,38 +193,38 @@ public class PayRentLogic {
             switch (counter){
                 case 1:
                     int amount1 = ferryCompany.getRents()[0];
-                    p1.setWalletAmount(p1.getWalletAmount() - amount1);
-                    p2.setWalletAmount(p2.getWalletAmount() + amount1);
+                    visitor.setWalletAmount(visitor.getWalletAmount() - amount1);
+                    owner.setWalletAmount(owner.getWalletAmount() + amount1);
                     break;
                 case 2:
                     int amount2 = ferryCompany.getRents()[1];
-                    p1.setWalletAmount(p1.getWalletAmount() - amount2);
-                    p2.setWalletAmount(p2.getWalletAmount() + amount2);
+                    visitor.setWalletAmount(visitor.getWalletAmount() - amount2);
+                    owner.setWalletAmount(owner.getWalletAmount() + amount2);
                     break;
                 case 3:
                     int amount3 = ferryCompany.getRents()[2];
-                    p1.setWalletAmount(p1.getWalletAmount() - amount3);
-                    p2.setWalletAmount(p2.getWalletAmount() + amount3);
+                    visitor.setWalletAmount(visitor.getWalletAmount() - amount3);
+                    owner.setWalletAmount(owner.getWalletAmount() + amount3);
                     break;
                 case 4:
                     int amount4 = ferryCompany.getRents()[3];
-                    p1.setWalletAmount(p1.getWalletAmount() - amount4);
-                    p2.setWalletAmount(p2.getWalletAmount() + amount4);
+                    visitor.setWalletAmount(visitor.getWalletAmount() - amount4);
+                    owner.setWalletAmount(owner.getWalletAmount() + amount4);
                     break;
                 default:
                     System.err.println("The counter in the Switch in payShippingCompanyRent() has an error value!");
             }
         }else {
-            System.err.println(p2.getName() + " is not standing on the field: " + ferryCompany.getName() +
+            System.err.println(owner.getName() + " is not standing on the field: " + ferryCompany.getName() +
                     ". An error has occurred!!!");
         }
     }
 
     /**
-     * This function will display the rent of a certain shipping company
+     * This function will display the rent of a certain ferry company
      *
      * @param owner The owner of the FerryCompany
-     * @param ferryCompany One of the ShippingCompanies
+     * @param ferryCompany One of the FerryCompanies
      * @return The rent calculated from the owner's property list
      */
     public int showFerryCompanyRent(Player owner, FerryCompany ferryCompany){

@@ -71,7 +71,8 @@ public class NonUnittestTesting {
                         testPayRentProperty(setupGame,board,payRentLogic);
                         break;
                     case 10:
-
+                        testPayFerryCompanyRentLogic(setupGame,board,payRentLogic,buyFieldLogic);
+                        break;
                     default:
                         System.out.println("Not a valid test number!!");
                         break;
@@ -566,36 +567,220 @@ public class NonUnittestTesting {
         Player jacob = new Player("Jacob",10000,0,false);
         Player stella = new Player("Stella",10000,0,false);
         Player valdemar = new Player("Valdemar",10000,0,false);
-        Player leonora = new Player("Leonora",10000,0,false);
-        Player kida = new Player("Kida",10000,0,false);
+        Player leonora = new Player("Leonora",16000,0,false);
+        Player kida = new Player("Kida",20000,0,false);
+
+        board.getPlayers().add(jacob);
+        board.getPlayers().add(stella);
+        board.getPlayers().add(valdemar);
+        board.getPlayers().add(leonora);
+        board.getPlayers().add(kida);
 
         FerryCompany dfds = (FerryCompany) board.getBoard()[5];
         FerryCompany dsbKBH = (FerryCompany) board.getBoard()[15];
         FerryCompany sfl = (FerryCompany) board.getBoard()[25];
         FerryCompany dsbJylland = (FerryCompany) board.getBoard()[35];
 
-        //Moving stella to the first Shipping Company and making stella buy it
-        System.out.println(stella.getName() + " is moving to the first Shipping company, called: " + dfds.getName());
+        //Moving stella to the first Ferry Company and making stella buy it
+        System.out.println(stella.getName() + " has a wallet with the amount: " + stella.getWalletAmount());
 
-        //Moving player1 to the first shipping company to pay rent
+        System.out.println(stella.getName() + " is moving to the first ferry company, called: " + dfds.getName() + "\n" +
+                            stella.getName() + " is buying " + dfds.getName() + " for the price of " + dfds.getPrice() + "\n");
 
-        //Erase player2 and reset player1
+        stella.setPosition(dfds.getPosition());
+        buyFieldLogic.buyField(stella,dfds);
 
-        //Making player3 buy two Shipping Companies by moving him to the first and then the second
+        System.out.println(stella.getName() + " owns " + stella.getProperties().size() + " properties!\n" +
+                           stella.getName() + " property list consists of: \n");
 
-        //Moving player1 to the second Shipping Company to pay rent
+        for (BuyableField field: stella.getProperties()) {
+            System.out.println(field + "\n");
+        }
 
-        //Erase player3 and reset player1
+        System.out.println(stella.getName() + " has a wallet with the amount: " + stella.getWalletAmount());
 
-        //Making player4 buy three Shipping Companies by moving player4 to the first, the second and then the third
+        //Moving jacob to the first Ferry Company to pay rent
+        System.out.println(jacob.getName() + " has a wallet amount of " + jacob.getWalletAmount() + "\n");
 
-        //Moving player1 to the third Shipping Company to pay rent
+        System.out.println("Moving " + jacob.getName() + " to the " + dfds.getName() + " field and charging rent\n" +
+                            dfds.getName() + " has a current rent of " + payRentLogic.showFerryCompanyRent(dfds.getOwner(),dfds) + "\n");
 
-        //Erase player4 and reset player1
+        jacob.setPosition(dfds.getPosition());
 
-        //Making player5 buy four Shipping Companies by moving player 5 to the first, the second, the third and then the fourth
+        payRentLogic.payFerryCompanyRent(jacob,dfds.getOwner(), (FerryCompany) board.getBoard()[jacob.getPosition()]);
 
-        //Moving player1 to the fourth Shipping Company to pay rent
+        System.out.println(jacob.getName() + " has a wallet amount of " + jacob.getWalletAmount() + "\n");
+
+        //Erase stella and reset jacob
+        System.out.println("Erasing " + stella.getName() + " and resetting " + jacob.getName() + "\n");
+
+        board.getPlayers().remove(stella);
+        buyFieldLogic.releaseField(stella,dfds);
+        jacob.setPosition(board.getBoard()[0].getPosition());
+
+        System.out.println("Player's in play is now " + board.getPlayers().size() + "\n" +
+                            jacob.getName() + " has a position of " + jacob.getPosition() + "\n");
+
+        //Making valdemar buy two Ferry Companies by moving him to the first and then the second
+        System.out.println(valdemar.getName() + " has a wallet amount of " + valdemar.getWalletAmount() + "\n");
+
+        System.out.println("Moving " + valdemar.getName() + " to the first Ferry Company: " + dfds.getName() +
+                " and buying it! It costs " + dfds.getPrice() + "\n");
+
+        valdemar.setPosition(dfds.getPosition());
+        buyFieldLogic.buyField(valdemar,dfds);
+
+        System.out.println(valdemar.getName() + " has a wallet amount of " + valdemar.getWalletAmount() + "\n");
+
+        System.out.println("Moving " + valdemar.getName() + " to the second Ferry Company: " + dsbKBH.getName() +
+                " and buying it! It costs " + dsbKBH.getPrice() + "\n");
+
+        valdemar.setPosition(dsbKBH.getPosition());
+        buyFieldLogic.buyField(valdemar,dsbKBH);
+
+        System.out.println(valdemar.getName() + " owns " + valdemar.getProperties().size() + " properties!\n" +
+                valdemar.getName() + " property list consists of: \n");
+
+        for (BuyableField field: valdemar.getProperties()) {
+            System.out.println(field + "\n");
+        }
+
+        System.out.println(valdemar.getName() + " has a wallet amount of " + valdemar.getWalletAmount() + "\n");
+
+        //Moving jacob to the second Ferry Company to pay rent
+        System.out.println(jacob.getName() + " has a wallet amount of " + jacob.getWalletAmount() + "\n");
+
+        System.out.println("Moving " + jacob.getName() + " to " + dsbKBH.getName() + " to pay rent!\n" +
+                dsbKBH.getName() + " has a rent of " + payRentLogic.showFerryCompanyRent(dsbKBH.getOwner(), dsbKBH) + " because " +
+                valdemar.getName() + " owns " + valdemar.getProperties().size() + " Ferry Companies!\n");
+
+        jacob.setPosition(dsbKBH.getPosition());
+
+        payRentLogic.payFerryCompanyRent(jacob,dsbKBH.getOwner(), (FerryCompany) board.getBoard()[jacob.getPosition()]);
+
+        System.out.println(jacob.getName() + " has a wallet amount of " + jacob.getWalletAmount() + "\n");
+
+        //Erase valdemar and reset jacob
+        System.out.println("Erasing " + valdemar.getName() + " and resetting " + jacob.getName() + "\n");
+
+        board.getPlayers().remove(valdemar);
+        buyFieldLogic.releasePlayersFields(valdemar);
+        jacob.setPosition(board.getBoard()[0].getPosition());
+
+        System.out.println("Player's in play is now " + board.getPlayers().size() + "\n" +
+                jacob.getName() + " has a position of " + jacob.getPosition() + "\n");
+
+        //Making leonora buy three Ferry Companies by moving leonora to the first, the second and then the third
+        System.out.println(leonora.getName() + " has a wallet amount of " + leonora.getWalletAmount() + "\n");
+
+        System.out.println("Moving " + leonora.getName() + " to the first Ferry Company: " + dfds.getName() +
+                " and buying it! It costs " + dfds.getPrice() + "\n");
+
+        leonora.setPosition(dfds.getPosition());
+        buyFieldLogic.buyField(leonora,dfds);
+
+        System.out.println(leonora.getName() + " has a wallet amount of " + leonora.getWalletAmount() + "\n");
+
+        System.out.println("Moving " + leonora.getName() + " to the second Ferry Company: " + dsbKBH.getName() +
+                " and buying it! It costs " + dsbKBH.getPrice() + "\n");
+
+        leonora.setPosition(dsbKBH.getPosition());
+        buyFieldLogic.buyField(leonora,dsbKBH);
+
+        System.out.println(leonora.getName() + " has a wallet amount of " + leonora.getWalletAmount() + "\n");
+
+        System.out.println("Moving " + leonora.getName() + " to the third Ferry Company: " + sfl.getName() +
+                " and buying it! It costs " + sfl.getPrice() + "\n");
+
+        leonora.setPosition(sfl.getPosition());
+        buyFieldLogic.buyField(leonora,sfl);
+
+        System.out.println(leonora.getName() + " owns " + leonora.getProperties().size() + " properties!\n" +
+                leonora.getName() + " property list consists of: \n");
+
+        for (BuyableField field: leonora.getProperties()) {
+            System.out.println(field + "\n");
+        }
+
+        System.out.println(leonora.getName() + " has a wallet amount of " + leonora.getWalletAmount() + "\n");
+
+        //Moving jacob to the third Ferry Company to pay rent
+        System.out.println(jacob.getName() + " has a wallet amount of " + jacob.getWalletAmount() + "\n");
+
+        System.out.println("Moving " + jacob.getName() + " to " + sfl.getName() + " to pay rent!\n" +
+                sfl.getName() + " has a rent of " + payRentLogic.showFerryCompanyRent(sfl.getOwner(), sfl) + " because " +
+                leonora.getName() + " owns " + leonora.getProperties().size() + " Ferry Companies!\n");
+
+        jacob.setPosition(sfl.getPosition());
+
+        payRentLogic.payFerryCompanyRent(jacob,sfl.getOwner(), (FerryCompany) board.getBoard()[jacob.getPosition()]);
+
+        System.out.println(jacob.getName() + " has a wallet amount of " + jacob.getWalletAmount() + "\n");
+
+        //Erase leonora and reset jacob
+        System.out.println("Erasing " + leonora.getName() + " and resetting " + jacob.getName() + "\n");
+
+        board.getPlayers().remove(leonora);
+        buyFieldLogic.releasePlayersFields(leonora);
+        jacob.setPosition(board.getBoard()[0].getPosition());
+
+        System.out.println("Player's in play is now " + board.getPlayers().size() + "\n" +
+                jacob.getName() + " has a position of " + jacob.getPosition() + "\n");
+
+        //Making kida buy four Ferry Companies by moving kida to the first, the second, the third and then the fourth
+        System.out.println(kida.getName() + " has a wallet amount of " + kida.getWalletAmount() + "\n");
+
+        System.out.println("Moving " + kida.getName() + " to the first Ferry Company: " + dfds.getName() +
+                " and buying it! It costs " + dfds.getPrice() + "\n");
+
+        kida.setPosition(dfds.getPosition());
+        buyFieldLogic.buyField(kida,dfds);
+
+        System.out.println(kida.getName() + " has a wallet amount of " + kida.getWalletAmount() + "\n");
+
+        System.out.println("Moving " + kida.getName() + " to the second Ferry Company: " + dsbKBH.getName() +
+                " and buying it! It costs " + dsbKBH.getPrice() + "\n");
+
+        kida.setPosition(dsbKBH.getPosition());
+        buyFieldLogic.buyField(kida,dsbKBH);
+
+        System.out.println(kida.getName() + " has a wallet amount of " + kida.getWalletAmount() + "\n");
+
+        System.out.println("Moving " + kida.getName() + " to the third Ferry Company: " + sfl.getName() +
+                " and buying it! It costs " + sfl.getPrice() + "\n");
+
+        kida.setPosition(sfl.getPosition());
+        buyFieldLogic.buyField(kida,sfl);
+
+        System.out.println(kida.getName() + " has a wallet amount of " + kida.getWalletAmount() + "\n");
+
+        System.out.println("Moving " + kida.getName() + " to the fourth Ferry Company: " + dsbJylland.getName() +
+                " and buying it! It costs " + dsbJylland.getPrice() + "\n");
+
+        kida.setPosition(dsbJylland.getPosition());
+        buyFieldLogic.buyField(kida,dsbJylland);
+
+        System.out.println(kida.getName() + " owns " + kida.getProperties().size() + " properties!\n" +
+                kida.getName() + " property list consists of: \n");
+
+        for (BuyableField field: kida.getProperties()) {
+            System.out.println(field + "\n");
+        }
+
+        System.out.println(kida.getName() + " has a wallet amount of " + kida.getWalletAmount() + "\n");
+
+        //Moving jacob to the fourth Shipping Company to pay rent
+        System.out.println(jacob.getName() + " has a wallet amount of " + jacob.getWalletAmount() + "\n");
+
+        System.out.println("Moving " + jacob.getName() + " to " + dsbJylland.getName() + " to pay rent!\n" +
+                dsbJylland.getName() + " has a rent of " + payRentLogic.showFerryCompanyRent(dsbJylland.getOwner(), dsbJylland) + " because " +
+                kida.getName() + " owns " + kida.getProperties().size() + " Ferry Companies!\n");
+
+        jacob.setPosition(dsbJylland.getPosition());
+
+        payRentLogic.payFerryCompanyRent(jacob,dsbJylland.getOwner(), (FerryCompany) board.getBoard()[jacob.getPosition()]);
+
+        System.out.println(jacob.getName() + " has a wallet amount of " + jacob.getWalletAmount() + "\n");
 
     }
 
