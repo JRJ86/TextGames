@@ -1,10 +1,7 @@
 package Testing;
 
-import logic.BuyFieldLogic;
-import logic.JailLogik;
+import logic.*;
 import controller.SetupGame;
-import logic.PayRentLogic;
-import logic.PayTaxLogic;
 import model.Board;
 import model.Player;
 import model.fields.*;
@@ -25,6 +22,7 @@ public class NonUnittestTesting {
         PayTaxLogic payTaxLogic = new PayTaxLogic();
         PayRentLogic payRentLogic = new PayRentLogic();
         BuyFieldLogic buyFieldLogic = new BuyFieldLogic();
+        ChanceCardLogic chanceCardLogic = new ChanceCardLogic();
 
         while (true){
 
@@ -38,7 +36,8 @@ public class NonUnittestTesting {
                     "7: Test pay rent Brewery\n" +
                     "8: Test PayTaxLogic methods\n" +
                     "9: Test pay rent Property\n" +
-                    "10: Test pay rent FerryCompany\n");
+                    "10: Test pay rent FerryCompany\n" +
+                    "11: Test ChanceCard functions\n");
 
             int choice = scanner.nextInt();
             while (true){
@@ -73,6 +72,8 @@ public class NonUnittestTesting {
                     case 10:
                         testPayFerryCompanyRentLogic(setupGame,board,payRentLogic,buyFieldLogic);
                         break;
+                    case 11:
+                        testChanceCardLogic(setupGame,board,chanceCardLogic);
                     default:
                         System.out.println("Not a valid test number!!");
                         break;
@@ -786,7 +787,24 @@ public class NonUnittestTesting {
 
     //------------------------------ Chance card testing ---------------------------------------------------------------
 
-    private static void testChanceCardLogic(){
+    private static void testChanceCardLogic(SetupGame setupGame, Board board, ChanceCardLogic chanceCardLogic){
+
+        //setup game and player
+        setupGame.createGame(board.getBoard(), board.getChancePile());
+        Player jacob = new Player("Jacob", 10000,0,false);
+
+        //make variables of the Chance fields
+        Field chance1 = board.getBoard()[2];
+        Field chance2 = board.getBoard()[7];
+        Field chance3 = board.getBoard()[17];
+        Field chance4 = board.getBoard()[22];
+        Field chance5 = board.getBoard()[33];
+        Field chance6 = board.getBoard()[36];
+
+        //move player to a Chance field
+
+
+        //do the actions based on which kind of card it is
 
     }
 
