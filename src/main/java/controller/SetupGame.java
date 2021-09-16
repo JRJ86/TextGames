@@ -6,22 +6,22 @@ import model.chancecards.PayMoney;
 import model.fields.ChanceField;
 import model.fields.*;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Queue;
-import java.util.Random;
+import java.util.*;
 
 public class SetupGame {
 
     public void createGame(Field[] board, Queue<ChanceCard> pile ){
 
-        for (int i = 0; i < 2; i++) {
-            if (i == 0){
-                createBoard(board);
-            }else {
-                createChancePile(pile);
-            }
-        }
+        createBoard(board);
+        createChancePile(pile);
+
+//        for (int i = 0; i < 2; i++) {
+//            if (i == 0){
+//                createBoard(board);
+//            }else {
+//                createChancePile(pile);
+//            }
+//        }
     }
 
     //--------------------------------- Create board -------------------------------------------------------------------

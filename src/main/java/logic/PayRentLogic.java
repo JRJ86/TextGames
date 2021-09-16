@@ -15,86 +15,87 @@ public class PayRentLogic {
      *
      * IMPORTANT!! This function does NOT see if the player has enough money to pay the rent
      *
-     * @param p1 The player who needs to pay rent
-     * @param p2 The player receiving the rent
+     * @param visitor The player who needs to pay rent
+     * @param owner The player receiving the rent
      * @param property The property owned by p2 and landed on by p1
      */
-    public void payPropertyRent(Player p1, Player p2, Property property){
+    public void payPropertyRent(Player visitor, Player owner, Property property){
 
-        if (property.getHouses() == 0){
-            int counter = 1;
-            String color = property.getColor();
+        if (visitor.getPosition() == property.getPosition()){
+            if (property.getHouses() == 0){
+                int counter = 1;
+                String color = property.getColor();
 
-            //check the property's owner for more properties of same color
-            for (BuyableField item: p2.getProperties()) {
-                if (item instanceof Property && ((Property) item).getColor().equals(color) && item != property){
-                    counter++;
+                //check the property's owner for more properties of same color
+                for (BuyableField item: owner.getProperties()) {
+                    if (item instanceof Property && ((Property) item).getColor().equals(color) && item != property){
+                        counter++;
+                    }
                 }
-            }
 
-            //if the owner got all 3 property's of same color he needs to pay double normal rent
-            //if the property's color is blue or purple, there will only be 2 properties with the same color
-            if (color.equals("purple") || color.equals("blue")){
-                switch (counter){
-                    case 1:
-                        int amount1 = property.getRents()[0];
-                        p1.setWalletAmount(p1.getWalletAmount() - amount1);
-                        p2.setWalletAmount(p2.getWalletAmount() + amount1);
-                        break;
-                    case 2:
-                        int amount2 = property.getRents()[1];
-                        p1.setWalletAmount(p1.getWalletAmount() - amount2);
-                        p2.setWalletAmount(p2.getWalletAmount() + amount2);
-                        break;
+                //if the owner got all 3 property's of same color he needs to pay double normal rent
+                //if the property's color is blue or purple, there will only be 2 properties with the same color
+                if (color.equals("purple") || color.equals("blue")){
+                    switch (counter){
+                        case 1:
+                            int amount1 = property.getRents()[0];
+                            visitor.setWalletAmount(visitor.getWalletAmount() - amount1);
+                            owner.setWalletAmount(owner.getWalletAmount() + amount1);
+                            break;
+                        case 2:
+                            int amount2 = property.getRents()[1];
+                            visitor.setWalletAmount(visitor.getWalletAmount() - amount2);
+                            owner.setWalletAmount(owner.getWalletAmount() + amount2);
+                            break;
 
+                    }
+                }else {
+                    switch (counter){
+                        case 1:
+                        case 2:
+                            int amount1 = property.getRents()[0];
+                            visitor.setWalletAmount(visitor.getWalletAmount() - amount1);
+                            owner.setWalletAmount(owner.getWalletAmount() + amount1);
+                            break;
+                        case 3:
+                            int amount3 = property.getRents()[1];
+                            visitor.setWalletAmount(visitor.getWalletAmount() - amount3);
+                            owner.setWalletAmount(owner.getWalletAmount() + amount3);
+                            break;
+                    }
                 }
             }else {
-                switch (counter){
+                switch (property.getHouses()){
                     case 1:
+                        int oneHouse = property.getRents()[2];
+                        visitor.setWalletAmount(visitor.getWalletAmount() - oneHouse);
+                        owner.setWalletAmount(owner.getWalletAmount() + oneHouse);
+                        break;
                     case 2:
-                        int amount1 = property.getRents()[0];
-                        p1.setWalletAmount(p1.getWalletAmount() - amount1);
-                        p2.setWalletAmount(p2.getWalletAmount() + amount1);
+                        int twoHouses = property.getRents()[3];
+                        visitor.setWalletAmount(visitor.getWalletAmount() - twoHouses);
+                        owner.setWalletAmount(owner.getWalletAmount() + twoHouses);
                         break;
                     case 3:
-                        int amount3 = property.getRents()[1];
-                        p1.setWalletAmount(p1.getWalletAmount() - amount3);
-                        p2.setWalletAmount(p2.getWalletAmount() + amount3);
+                        int threeHouses = property.getRents()[4];
+                        visitor.setWalletAmount(visitor.getWalletAmount() - threeHouses);
+                        owner.setWalletAmount(owner.getWalletAmount() + threeHouses);
                         break;
+                    case 4:
+                        int fourHouses = property.getRents()[5];
+                        visitor.setWalletAmount(visitor.getWalletAmount() - fourHouses);
+                        owner.setWalletAmount(owner.getWalletAmount() + fourHouses);
+                        break;
+                    case 5:
+                        int hotel = property.getRents()[6];
+                        visitor.setWalletAmount(visitor.getWalletAmount() - hotel);
+                        owner.setWalletAmount(owner.getWalletAmount() + hotel);
+                        break;
+                    default:
+                        System.err.println(System.out);
                 }
             }
-        }else {
-            switch (property.getHouses()){
-                case 1:
-                    int oneHouse = property.getRents()[2];
-                    p1.setWalletAmount(p1.getWalletAmount() - oneHouse);
-                    p2.setWalletAmount(p2.getWalletAmount() + oneHouse);
-                    break;
-                case 2:
-                    int twoHouses = property.getRents()[3];
-                    p1.setWalletAmount(p1.getWalletAmount() - twoHouses);
-                    p2.setWalletAmount(p2.getWalletAmount() + twoHouses);
-                    break;
-                case 3:
-                    int threeHouses = property.getRents()[4];
-                    p1.setWalletAmount(p1.getWalletAmount() - threeHouses);
-                    p2.setWalletAmount(p2.getWalletAmount() + threeHouses);
-                    break;
-                case 4:
-                    int fourHouses = property.getRents()[5];
-                    p1.setWalletAmount(p1.getWalletAmount() - fourHouses);
-                    p2.setWalletAmount(p2.getWalletAmount() + fourHouses);
-                    break;
-                case 5:
-                    int hotel = property.getRents()[6];
-                    p1.setWalletAmount(p1.getWalletAmount() - hotel);
-                    p2.setWalletAmount(p2.getWalletAmount() + hotel);
-                    break;
-                default:
-                    System.err.println(System.out);
-            }
         }
-
     }
 
     /**
@@ -272,26 +273,28 @@ public class PayRentLogic {
 
         int count = 1;
 
-        for (BuyableField field: owner.getProperties()) {
-            if (field instanceof Brewery && field != brewery){
-                count++;
+        if (visitor.getPosition() == brewery.getPosition()){
+            for (BuyableField field: owner.getProperties()) {
+                if (field instanceof Brewery && field != brewery){
+                    count++;
+                }
             }
-        }
 
-        switch (count){
-            case 1:
-                int amount1 = visitor.getCurrentRoll() * 100;
-                visitor.setWalletAmount(visitor.getWalletAmount() - amount1);
-                owner.setWalletAmount(owner.getWalletAmount() + amount1);
-                break;
-            case 2:
-                int amount2 = visitor.getCurrentRoll() * 200;
-                visitor.setWalletAmount(visitor.getWalletAmount() - amount2);
-                owner.setWalletAmount(owner.getWalletAmount() + amount2);
-                break;
-            default:
-                System.err.println("This should not happen!!!!");
-                break;
+            switch (count){
+                case 1:
+                    int amount1 = visitor.getCurrentRoll() * 100;
+                    visitor.setWalletAmount(visitor.getWalletAmount() - amount1);
+                    owner.setWalletAmount(owner.getWalletAmount() + amount1);
+                    break;
+                case 2:
+                    int amount2 = visitor.getCurrentRoll() * 200;
+                    visitor.setWalletAmount(visitor.getWalletAmount() - amount2);
+                    owner.setWalletAmount(owner.getWalletAmount() + amount2);
+                    break;
+                default:
+                    System.err.println("This should not happen!!!!");
+                    break;
+            }
         }
     }
 

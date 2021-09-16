@@ -8,17 +8,6 @@ public class ChanceField extends Field {
     public ChanceField() {
     }
 
-    /**
-     * TODO Properly test it
-     * @param pile The Chance card deck
-     * @return The top card, use it and then remove it
-     */
-    public ChanceCard drawCard(Queue<ChanceCard> pile){
-        ChanceCard card = pile.peek();
-        pile.poll();
-        return card;
-    }
-
     @Override
     public String toString() {
         return "-------------------------------------------------------------------------------- \n" +
