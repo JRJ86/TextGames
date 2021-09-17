@@ -803,14 +803,30 @@ public class NonUnittestTesting {
         Field chance6 = board.getBoard()[36];
 
         //move player to a Chance field
-        System.out.println("Putting " + jacob.getName() + " on the first chance field: " + chance1.getName() + "\n");
-
         for (Integer x: board.getChancePositions()) {
             System.out.println(x);
         }
 
-        //do the actions based on which kind of card it is
+        System.out.println("Putting " + jacob.getName() + " on the first chance field: " + chance1.getName() + "\n");
+        jacob.setPosition(chance1.getPosition());
 
+        System.out.println(jacob.getName() + " is standing on " + chance1.getName() + ", which has a position of " +
+                chance1.getName() + "\n");
+
+        System.out.println("The chance deck has a size of " + board.getChancePile().size() + "\n");
+
+        System.out.println(jacob.getName() + " has a wallet size of " + jacob.getWalletAmount() + "\n");
+
+        System.out.println("Taking a card from the chance deck and doing the action!");
+
+        //do the actions based on which kind of card it is
+        chanceCardLogic.triggerChanceCard(jacob,board);
+
+        System.out.println("The chance deck has a size of " + board.getChancePile().size() + "\n");
+
+        System.out.println(jacob.getName() + " has a wallet size of " + jacob.getWalletAmount() + "\n");
+
+        board.getChancePile().clear();
 
     }
 }

@@ -39,9 +39,13 @@ public class ChanceCardLogic {
 
         // check what card it is
         if (chanceCard instanceof GetMoney){
+            System.out.println(chanceCard.getDescription() + "\n" +
+                    "The amount to get is " + ((GetMoney) chanceCard).getAmount() + "\n");
             getMoneyFun(player, (GetMoney) chanceCard);
 
         }else if (chanceCard instanceof PayMoney){
+            System.out.println(chanceCard.getDescription() + "\n" +
+                    "The amount to pay is " + ((PayMoney) chanceCard).getAmount() + "\n");
             payMoneyFun(player, (PayMoney) chanceCard);
 
         }else if (chanceCard instanceof MatadorGrant){
