@@ -15,6 +15,7 @@ public class Board {
     private Queue<ChanceCard> chancePile = new LinkedList<>();
     private ArrayList<Player> players = new ArrayList<>();
     private final ArrayList<Integer> chancePositions = new ArrayList<>(Arrays.asList(2,7,17,22,33,36));
+    private int parkingMoney;
 
     public Board(){
 
@@ -49,5 +50,13 @@ public class Board {
 
     public ArrayList<Integer> getChancePositions() {
         return chancePositions;
+    }
+
+    public int getParkingMoney() {
+        return parkingMoney;
+    }
+
+    public void setParkingMoney(int parkingMoney) {
+        this.parkingMoney = parkingMoney;
     }
 }

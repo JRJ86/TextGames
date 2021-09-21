@@ -46,7 +46,7 @@ public class ChanceCardLogic {
         }else if (chanceCard instanceof PayMoney){
             System.out.println(chanceCard.getDescription() + "\n" +
                     "The amount to pay is " + ((PayMoney) chanceCard).getAmount() + "\n");
-            payMoneyFun(player, (PayMoney) chanceCard);
+            payMoneyFun(player, (PayMoney) chanceCard, board);
 
         }else if (chanceCard instanceof MatadorGrant){
             System.out.println("Not implemented yet!");
@@ -72,8 +72,10 @@ public class ChanceCardLogic {
         player.setWalletAmount(player.getWalletAmount() + getMoney.getAmount());
     }
 
-    private void payMoneyFun(Player player, PayMoney payMoney){
-        player.setWalletAmount(player.getWalletAmount() - payMoney.getAmount());
+    private void payMoneyFun(Player player, PayMoney payMoney, Board board){
+        int toParkingFee = payMoney.getAmount();
+        player.setWalletAmount(player.getWalletAmount() - toParkingFee);
+        board.setParkingMoney(board.getParkingMoney() + toParkingFee);
     }
 
 }

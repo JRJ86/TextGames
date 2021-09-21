@@ -23,21 +23,23 @@ public class NonUnittestTesting {
         PayRentLogic payRentLogic = new PayRentLogic();
         BuyFieldLogic buyFieldLogic = new BuyFieldLogic();
         ChanceCardLogic chanceCardLogic = new ChanceCardLogic();
+        PawnFieldLogic pawnFieldLogic = new PawnFieldLogic();
 
         while (true){
 
             System.out.println("Which test do you want to run? \n\n" +
-                    "1: Test property methods and functions\n" +
-                    "2: Test dice rolling methods and functions\n" +
+                    "1: Test property functionality\n" +
+                    "2: Test dice rolling functionality\n" +
                     "3: Print the chance pile\n" +
                     "4: Print the board\n" +
-                    "5: Test JailLogic methods\n" +
-                    "6: Test TUI menu's\n" +
-                    "7: Test pay rent Brewery\n" +
-                    "8: Test PayTaxLogic methods\n" +
-                    "9: Test pay rent Property\n" +
-                    "10: Test pay rent FerryCompany\n" +
-                    "11: Test ChanceCard functions\n");
+                    "5: Test jail functionality\n" +
+                    "6: Test TUI menu's functionality\n" +
+                    "7: Test pay rent on brewery functionality\n" +
+                    "8: Test pay tax functionality\n" +
+                    "9: Test pay rent on property functionality\n" +
+                    "10: Test pay rent on ferry company functionality\n" +
+                    "11: Test chance card functionality\n" +
+                    "12: Test pawn functionality");
 
             int choice = scanner.nextInt();
             while (true){
@@ -74,6 +76,9 @@ public class NonUnittestTesting {
                         break;
                     case 11:
                         testChanceCardLogic(setupGame,board,chanceCardLogic);
+                        break;
+                    case 12:
+                        testPawnFieldLogic(setupGame,board,pawnFieldLogic,buyFieldLogic);
                         break;
                     default:
                         System.out.println("Not a valid test number!!");
@@ -796,11 +801,11 @@ public class NonUnittestTesting {
 
         //make variables of the Chance fields
         Field chance1 = board.getBoard()[2];
-        Field chance2 = board.getBoard()[7];
-        Field chance3 = board.getBoard()[17];
-        Field chance4 = board.getBoard()[22];
-        Field chance5 = board.getBoard()[33];
-        Field chance6 = board.getBoard()[36];
+//        Field chance2 = board.getBoard()[7];
+//        Field chance3 = board.getBoard()[17];
+//        Field chance4 = board.getBoard()[22];
+//        Field chance5 = board.getBoard()[33];
+//        Field chance6 = board.getBoard()[36];
 
         //move player to a Chance field
         for (Integer x: board.getChancePositions()) {
@@ -826,7 +831,70 @@ public class NonUnittestTesting {
 
         System.out.println(jacob.getName() + " has a wallet size of " + jacob.getWalletAmount() + "\n");
 
+        System.out.println("The parking fee is now on " + board.getParkingMoney() + "\n");
+
         board.getChancePile().clear();
+
+    }
+
+    //----------------------- Pawn field testing -----------------------------------------------------------------------
+
+    private static void testPawnFieldLogic(SetupGame setupGame, Board board, PawnFieldLogic pawnFieldLogic, BuyFieldLogic buyFieldLogic){
+
+        //setup game
+        setupGame.createGame(board.getBoard(), board.getChancePile());
+
+        //setup players
+        Player jacob = new Player("Jacob", 100000,0,false);
+        Player stella = new Player("Stella",20000,0,false);
+
+        //give player jacob some properties
+        System.out.println("Giving " + jacob.getName() + " some properties to pawn!\n");
+        jacob.setPosition(board.getBoard()[1].getPosition());
+        buyFieldLogic.buyField(jacob, (BuyableField) board.getBoard()[1]);
+        jacob.setPosition(board.getBoard()[9].getPosition());
+        buyFieldLogic.buyField(jacob, (BuyableField) board.getBoard()[9]);
+        jacob.setPosition(board.getBoard()[13].getPosition());
+        buyFieldLogic.buyField(jacob, (BuyableField) board.getBoard()[13]);
+        jacob.setPosition(board.getBoard()[15].getPosition());
+        buyFieldLogic.buyField(jacob, (BuyableField) board.getBoard()[15]);
+        jacob.setPosition(board.getBoard()[19].getPosition());
+        buyFieldLogic.buyField(jacob, (BuyableField) board.getBoard()[19]);
+        jacob.setPosition(board.getBoard()[28].getPosition());
+        buyFieldLogic.buyField(jacob, (BuyableField) board.getBoard()[28]);
+        jacob.setPosition(board.getBoard()[32].getPosition());
+        buyFieldLogic.buyField(jacob, (BuyableField) board.getBoard()[32]);
+        System.out.println("Printing " + jacob.getName() + "'s properties!\n");
+
+        for (BuyableField field : jacob.getProperties()) {
+            System.out.println(field);
+        }
+
+        //pawn the property
+        System.out.println(jacob.getName() + " has a wallet amount of " + jacob.getWalletAmount() + " and a " +
+                "property list of size " + jacob.getProperties().size() + "\n");
+        System.out.println("Pawning " + jacob.getProperties().get(0).getName() + " and get " + jacob.getProperties().get(0).getPawnValue() + "\n");
+
+        pawnFieldLogic.pawnField(jacob,jacob.getProperties().get(0));
+
+        System.out.println(jacob.getName() + " has a wallet amount of " + jacob.getWalletAmount() + " and a " +
+                "property list of size " + jacob.getProperties().size() + "\n");
+
+        //move player stella to the pawned property
+        System.out.println("Moving " + stella.getName() + " to " + board.getBoard()[1].getName() + " to try and buy it " +
+                "for the pawn price of " + ((BuyableField) board.getBoard()[1]).getPawnValue() + "\n");
+
+        System.out.println(stella.getName() + " has a wallet amount of " + stella.getWalletAmount() + "\n");
+
+        stella.setPosition(board.getBoard()[1].getPosition());
+
+        //try to buy it for the pawn price
+        buyFieldLogic.buyField(stella, (BuyableField) board.getBoard()[1]);
+
+        System.out.println(stella.getName() + " has a wallet size of " + stella.getWalletAmount() + " and has " +
+                stella.getProperties().size() + " properties\n");
+
+        //TODO Make more pawn test
 
     }
 }
