@@ -63,9 +63,8 @@ public class Property extends BuyableField {
                 "               1 house costs " + houseCost + " kr\n" +
                 "               1 hotel costs " + houseCost + " kr, if the property has 4 houses \n\n" +
                 "               The property has " + buildingsOnProperty(this) + "\n" +
-                "               The property is " + isPropertyOwned() + " by a player! \n" +
                 "               The property can be pawned for " + getPawnValue() + " kr\n" +
-                "               The property is owned by: " + getOwner() + "\n" +
+                "               The property is owned by: " + getOwner().getName() + "\n" +
                 "-------------------------------------------------------------------------------- \n";
     }
 

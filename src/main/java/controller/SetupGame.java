@@ -107,7 +107,7 @@ public class SetupGame {
                     board[i] = brewery;
                     break;
                 case 13:
-                    property = createProperty("green",new int[]{200,400,1000,3000,9000,12500,15000},100,
+                    property = createProperty("green",new int[]{200,400,1000,3000,9000,12500,15000},2000,
                             "Bulowsvej",2800,1400,13);
                     board[i] = property;
                     break;
@@ -159,7 +159,7 @@ public class SetupGame {
                     board[i] = chanceField;
                     break;
                 case 23:
-                    property = createProperty("red",new int[]{350,700,1800,5000,14000,17500,21000},100,
+                    property = createProperty("red",new int[]{350,700,1800,5000,14000,17500,21000},3000,
                             "Østerbrogade",4400,2200,23);
                     board[i] = property;
                     break;
@@ -203,7 +203,7 @@ public class SetupGame {
                     board[i] = property;
                     break;
                 case 32:
-                    property = createProperty("yellow",new int[]{550,1100,2600,7800,18000,22000,25000},100,
+                    property = createProperty("yellow",new int[]{550,1100,2600,7800,18000,22000,25000},4000,
                             "Vimmelskaftet",6000,3000,32);
                     board[i] = property;
                     break;

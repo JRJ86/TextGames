@@ -24,6 +24,7 @@ public class NonUnittestTesting {
         BuyFieldLogic buyFieldLogic = new BuyFieldLogic();
         ChanceCardLogic chanceCardLogic = new ChanceCardLogic();
         PawnFieldLogic pawnFieldLogic = new PawnFieldLogic();
+        BuyHouseLogic buyHouseLogic = new BuyHouseLogic();
 
         while (true){
 
@@ -39,7 +40,8 @@ public class NonUnittestTesting {
                     "9: Test pay rent on property functionality\n" +
                     "10: Test pay rent on ferry company functionality\n" +
                     "11: Test chance card functionality\n" +
-                    "12: Test pawn functionality");
+                    "12: Test pawn functionality\n" +
+                    "13: Test buy house functionality\n");
 
             int choice = scanner.nextInt();
             while (true){
@@ -79,6 +81,9 @@ public class NonUnittestTesting {
                         break;
                     case 12:
                         testPawnFieldLogic(setupGame,board,pawnFieldLogic,buyFieldLogic);
+                        break;
+                    case 13:
+                        testBuyHouseLogic(board,setupGame,buyFieldLogic,buyHouseLogic, scanner);
                         break;
                     default:
                         System.out.println("Not a valid test number!!");
@@ -897,5 +902,32 @@ public class NonUnittestTesting {
         //TODO Make more pawn test
 
     }
+
+    //----------------------------- Buy house testing ------------------------------------------------------------------
+
+    private static void testBuyHouseLogic(Board board, SetupGame setupGame, BuyFieldLogic buyFieldLogic, BuyHouseLogic buyHouseLogic, Scanner scanner) {
+
+        // setup game and player
+        setupGame.createGame(board.getBoard(), board.getChancePile());
+        Player jacob = new Player("Jacob", 40000,0,false);
+
+        // buying Properties
+        jacob.setPosition(board.getBoard()[1].getPosition());
+        buyFieldLogic.buyField(jacob, (BuyableField) board.getBoard()[1]);
+        jacob.setPosition(board.getBoard()[3].getPosition());
+        buyFieldLogic.buyField(jacob, (BuyableField) board.getBoard()[3]);
+        jacob.setPosition(board.getBoard()[26].getPosition());
+        buyFieldLogic.buyField(jacob, (BuyableField) board.getBoard()[26]);
+        jacob.setPosition(board.getBoard()[27].getPosition());
+        buyFieldLogic.buyField(jacob, (BuyableField) board.getBoard()[27]);
+        jacob.setPosition(board.getBoard()[29].getPosition());
+        buyFieldLogic.buyField(jacob, (BuyableField) board.getBoard()[29]);
+
+        buyHouseLogic.buyHouse(jacob, scanner);
+
+    }
+
+
+
 }
 
