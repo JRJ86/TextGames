@@ -906,24 +906,41 @@ public class NonUnittestTesting {
     //----------------------------- Buy house testing ------------------------------------------------------------------
 
     private static void testBuyHouseLogic(Board board, SetupGame setupGame, BuyFieldLogic buyFieldLogic, BuyHouseLogic buyHouseLogic, Scanner scanner) {
+        //TODO: Almost done - need more testing!!
 
         // setup game and player
         setupGame.createGame(board.getBoard(), board.getChancePile());
         Player jacob = new Player("Jacob", 40000,0,false);
 
+        Property blue1 = (Property) board.getBoard()[1];
+        Property blue2 = (Property) board.getBoard()[3];
+        Property white1 = (Property) board.getBoard()[26];
+        Property white2 = (Property) board.getBoard()[27];
+        Property white3 = (Property) board.getBoard()[29];
+
         // buying Properties
-        jacob.setPosition(board.getBoard()[1].getPosition());
-        buyFieldLogic.buyField(jacob, (BuyableField) board.getBoard()[1]);
-        jacob.setPosition(board.getBoard()[3].getPosition());
-        buyFieldLogic.buyField(jacob, (BuyableField) board.getBoard()[3]);
-        jacob.setPosition(board.getBoard()[26].getPosition());
-        buyFieldLogic.buyField(jacob, (BuyableField) board.getBoard()[26]);
-        jacob.setPosition(board.getBoard()[27].getPosition());
-        buyFieldLogic.buyField(jacob, (BuyableField) board.getBoard()[27]);
-        jacob.setPosition(board.getBoard()[29].getPosition());
-        buyFieldLogic.buyField(jacob, (BuyableField) board.getBoard()[29]);
+        jacob.setPosition(blue1.getPosition());
+        buyFieldLogic.buyField(jacob, blue1);
+        blue1.setHouses(2);
+        jacob.setPosition(blue2.getPosition());
+        buyFieldLogic.buyField(jacob, blue2);
+        blue2.setHouses(1);
+
+        jacob.setPosition(white1.getPosition());
+        buyFieldLogic.buyField(jacob, white1);
+        white1.setHouses(3);
+        jacob.setPosition(white2.getPosition());
+        buyFieldLogic.buyField(jacob, white2);
+        white2.setHouses(2);
+        jacob.setPosition(white3.getPosition());
+        buyFieldLogic.buyField(jacob, white3);
+        white3.setHouses(2);
+
+        System.out.println("BEFORE BUY: " + jacob.getProperties());
 
         buyHouseLogic.buyHouse(jacob, scanner);
+
+        System.out.println("AFTER BUY: " + jacob.getProperties());
 
     }
 

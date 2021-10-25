@@ -11,18 +11,17 @@ public class BuyHouseLogic {
     public void buyHouse(Player owner, Scanner scanner){
 
         boolean found = false;
+        boolean noMore = false;
         String colorChoice;
         int houseChoice = 0;
         int houseTotal = 0;
         String quit;
 
         // list of group colors to buy on
-//        HashMap<String, Integer> ownedPropertyGroups = new HashMap<>();
-        ArrayList<String> ownedPropertyGroups = new ArrayList<String>();
+        ArrayList<String> ownedPropertyGroups = new ArrayList<>();
 
         // list of properties in the property group you want to buy on
         ArrayList<Property> chosenPropertyGroup = new ArrayList<>();
-        //HashMap<String,Integer> chosenPropertyGroup = new HashMap<>();
 
         // hashmap to see which property groups is available
         HashMap<String,Integer> ownedColors = new HashMap<String,Integer>(){{
@@ -82,18 +81,8 @@ public class BuyHouseLogic {
                         mapElement.getValue().equals(2) && (mapElement.getKey().equals("blue") || mapElement.getKey().equals("purple"))){
                     System.out.println("The property group of color " + mapElement.getKey() + " is eligible to buy houses on!");
                     ownedPropertyGroups.add(mapElement.getKey());
-
-//                    for (BuyableField field: owner.getProperties()) {
-//                        if (field instanceof Property){
-//                            if (((Property) field).getColor().equals(mapElement.getKey())){
-//                                ownedPropertyGroups.put(mapElement.getKey(),((Property) field).getHouses());
-//                            }
-//                        }
-//                    }
                 }
             }
-
-            System.out.println(ownedPropertyGroups);
 
             if (ownedPropertyGroups.isEmpty()){
                 System.out.println(owner.getName() + " does not have any valid properties to buy on!\n");
@@ -106,13 +95,6 @@ public class BuyHouseLogic {
             do {
                 colorChoice = scanner.next();
 
-//                for (Map.Entry<String, Integer> mapElement: ownedPropertyGroups.entrySet()) {
-//                    String key = mapElement.getKey();
-//                    if (key.equals(colorChoice)){
-//                        found = true;
-//                        break;
-//                    }
-//                }
                 for (String color: ownedPropertyGroups) {
                     if (color.equals(colorChoice)){
                         found = true;
@@ -136,10 +118,6 @@ public class BuyHouseLogic {
                 }
             }
 
-            //TODO: DELETE
-            System.out.println(chosenPropertyGroup);
-
-
             // how many houses can be bought?
             // if houseTotal is above the max number of 2 or 3 fielded property groups then another group must be chosen
             if (colorChoice.equals("blue") || colorChoice.equals("purple")){
@@ -154,12 +132,10 @@ public class BuyHouseLogic {
                     }
 
                 }else {
-
                     int maxPurchase = (10 - houseTotal);
-
                     houseChoice = getHouseChoice(scanner, colorChoice, houseChoice, maxPurchase);
-
-                    placeHouses(houseChoice,2,chosenPropertyGroup,owner);
+                    placeHouses(houseChoice, chosenPropertyGroup,owner);
+                    noMore = true;
                 }
 
             }else {
@@ -174,17 +150,20 @@ public class BuyHouseLogic {
                     }
 
                 }else {
-
                     int maxPurchase = (15 - houseTotal);
-
                     houseChoice = getHouseChoice(scanner, colorChoice, houseChoice, maxPurchase);
-
-                    placeHouses(houseChoice,3,chosenPropertyGroup,owner);
+                    placeHouses(houseChoice, chosenPropertyGroup,owner);
+                    noMore = true;
                 }
             }
 
             // If this list is not emptied out, then if you choose a new property group to buy on, then the old property group will still be part of group
             chosenPropertyGroup.clear();
+            ownedPropertyGroups.clear();
+
+            if (noMore){
+                break;
+            }
         }
     }
 
@@ -220,81 +199,47 @@ public class BuyHouseLogic {
         return houseChoice;
     }
 
+    /**
+     *
+     *
+     * @param houseChoice
+     * @param chosenPropertyGroup
+     * @param owner
+     */
+    private void placeHouses(int houseChoice, ArrayList<Property> chosenPropertyGroup, Player owner){
 
-    private void placeHouses(int houseChoice, int splitAmount, ArrayList<Property> chosenPropertyGroup, Player owner){
-
-        // call splitValues and fill array
-        ArrayList<Integer> houses = splitValues(houseChoice,splitAmount);
-
+        boolean done = false;
+        int houseNumber = houseChoice;
         Property property = chosenPropertyGroup.get(0);
 
-        //TODO ERASE!
-        System.out.println("splitValues list: " + houses);
-        boolean done = false;
+        if(owner.getWalletAmount() < (property.getHouseCost() * houseChoice)){
+            System.out.println("You do not have enough funds for the purchase.\n" +
+                    "You have: " + owner.getWalletAmount() + " kr and you need: " + (property.getHouseCost() * houseChoice));
+        }else {
+            do {
 
-        // divide the array onto the houses in chosenPropertyGroup ( check if the property is eligible for that many houses)
-        do {
-            for (int i = 0; i < chosenPropertyGroup.size(); i++) {
-                if (houses.size() == 0) {
-                    done = true;
-                    break;
-                }
-                switch (chosenPropertyGroup.get(i).getHouses()) {
-                    case 0:
-                        if (houses.get(i) <= 5) {
-                            chosenPropertyGroup.get(i).setHouses(houses.get(i));
-                            houses.remove(i);
-                        }
+                for (Property value : chosenPropertyGroup) {
+                    if (houseNumber <= 0) {
+                        done = true;
                         break;
-                    case 1:
-                        if (houses.get(i) <= 4) {
-                            chosenPropertyGroup.get(i).setHouses(houses.get(i));
-                            houses.remove(i);
-                        }
-                        break;
-                    case 2:
-                        if (houses.get(i) <= 3) {
-                            chosenPropertyGroup.get(i).setHouses(houses.get(i));
-                            houses.remove(i);
-                        }
-                        break;
-                    case 3:
-                        if (houses.get(i) <= 2) {
-                            chosenPropertyGroup.get(i).setHouses(houses.get(i));
-                            houses.remove(i);
-                        }
-                        break;
-                    case 4:
-                        if (houses.get(i) <= 1) {
-                            chosenPropertyGroup.get(i).setHouses(houses.get(i));
-                            houses.remove(i);
-                        }
-                        break;
-                    case 5:
-                        break;
-                    default:
-                        System.err.println("This number is not supposed to happen BuyHouseLogic.placeHouses()");
-                }
-            }
-        } while (!done);
-
-        // Update the properties in owner.getProperties()
-        for (BuyableField field: owner.getProperties()) {
-            if (field instanceof Property){
-                if (((Property) field).getColor().equals(chosenPropertyGroup.get(0).getColor())){
-                    for (Property prop : chosenPropertyGroup) {
-                        if (field.getName().equals(prop.getName())) {
-                            ((Property) field).setHouses(prop.getHouses());
-                        }
                     }
+                    if (value.getHouses() < 5) {
+                        value.setHouses(value.getHouses() + 1);
+                    } else {
+                        System.out.println(value.getName() + " now has a hotel, and cannot be upgraded more!\n");
+                    }
+
+                    houseNumber = houseNumber - 1;
                 }
-            }
+
+            } while(!done);
+
+            owner.setWalletAmount(owner.getWalletAmount() - (property.getHouseCost() * houseChoice));
         }
 
-        // charge payment
-        owner.setWalletAmount(owner.getWalletAmount() - (property.getHouseCost() * houseChoice));
     }
 
+    //TODO ERASE
     private ArrayList<Integer> splitValues(int houseChoice, int splitAmount){
 
         int amount1;
@@ -327,4 +272,5 @@ public class BuyHouseLogic {
 
         return splitValues;
     }
+
 }
