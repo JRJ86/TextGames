@@ -7,6 +7,7 @@ import model.Player;
 import model.fields.*;
 import view.TUI;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -25,6 +26,7 @@ public class NonUnittestTesting {
         ChanceCardLogic chanceCardLogic = new ChanceCardLogic();
         PawnFieldLogic pawnFieldLogic = new PawnFieldLogic();
         BuyHouseLogic buyHouseLogic = new BuyHouseLogic();
+        ParkingLogic parkingLogic = new ParkingLogic();
 
         while (true){
 
@@ -41,7 +43,8 @@ public class NonUnittestTesting {
                     "10: Test pay rent on ferry company functionality\n" +
                     "11: Test chance card functionality\n" +
                     "12: Test pawn functionality\n" +
-                    "13: Test buy house functionality\n");
+                    "13: Test buy house functionality\n" +
+                    "14: Test parking logic functionality\n");
 
             int choice = scanner.nextInt();
             while (true){
@@ -84,6 +87,9 @@ public class NonUnittestTesting {
                         break;
                     case 13:
                         testBuyHouseLogic(board,setupGame,buyFieldLogic,buyHouseLogic, scanner);
+                        break;
+                    case 14:
+                        testParkingLogic(board,parkingLogic,setupGame,chanceCardLogic);
                         break;
                     default:
                         System.out.println("Not a valid test number!!");
@@ -936,14 +942,70 @@ public class NonUnittestTesting {
         buyFieldLogic.buyField(jacob, white3);
         white3.setHouses(2);
 
-        System.out.println("BEFORE BUY: " + jacob.getProperties());
+        System.out.println("BEFORE BUY: \n" + jacob.getProperties());
 
         buyHouseLogic.buyHouse(jacob, scanner);
 
-        System.out.println("AFTER BUY: " + jacob.getProperties());
+        System.out.println("AFTER BUY: \n" + jacob.getProperties());
 
     }
 
+    //------------------ Retrieve Parking Money Testing ----------------------------------------------------------------
+
+    private static void testParkingLogic(Board board, ParkingLogic parkingLogic, SetupGame setupGame, ChanceCardLogic chanceCardLogic){
+
+        ArrayList<ChanceField> chanceFields = new ArrayList<>();
+
+        // Setting up the game
+        setupGame.createGame(board.getBoard(), board.getChancePile());
+
+        // Making four players
+        Player jacob = new Player("Jacob",20000,0,false);
+        Player stella = new Player("Stella",0,0,false);
+        board.getPlayers().add(jacob);
+        board.getPlayers().add(stella);
+
+        // Making ChanceFields
+        ChanceField chance1 = (ChanceField) board.getBoard()[2];
+        ChanceField chance2 = (ChanceField) board.getBoard()[7];
+        ChanceField chance3 = (ChanceField) board.getBoard()[17];
+        ChanceField chance4 = (ChanceField) board.getBoard()[22];
+        ChanceField chance5 = (ChanceField) board.getBoard()[33];
+        ChanceField chance6 = (ChanceField) board.getBoard()[36];
+        chanceFields.add(chance1);
+        chanceFields.add(chance2);
+        chanceFields.add(chance3);
+        chanceFields.add(chance4);
+        chanceFields.add(chance5);
+        chanceFields.add(chance6);
+        Parking parking = (Parking) board.getBoard()[20];
+
+        // Preliminary checks
+        for (Player player: board.getPlayers()) {
+            System.out.println(player.getName() + " has a wallet amount of: " + player.getWalletAmount());
+        }
+        System.out.println("Parking amount is at: " + board.getParkingMoney() + "\n");
+
+        // Player jacob lands on each chance card field and does what the action says
+
+        for (ChanceField chanceField: chanceFields){
+            System.out.println("Moving " + jacob.getName() + " to " + chanceField.getName() + "\n");
+            jacob.setPosition(chanceField.getPosition());
+            System.out.println(jacob.getName() + " has a position of " + chanceField.getPosition() + "\n");
+            chanceCardLogic.triggerChanceCard(jacob,board);
+            System.out.println(jacob.getName() + " has a wallet amount of " + jacob.getWalletAmount() +
+                    " and the parking money is at " + board.getParkingMoney() + "\n");
+        }
+
+        // The last player lands on the parking field and collects the funds
+        System.out.println("Moving " + stella.getName() + " to " + parking.getName() + " and collecting the money!");
+        stella.setPosition(parking.getPosition());
+        parkingLogic.retrieveParkingMoney(stella,board);
+        System.out.println(stella.getName() + " has a wallet amount of " + stella.getWalletAmount() +
+                " and the parking money is at " + board.getParkingMoney() + "\n");
+
+        chanceFields.clear();
+    }
 
 
 }
