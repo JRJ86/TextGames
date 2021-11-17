@@ -276,6 +276,7 @@ public class HouseLogic {
         for (Property property: propertiesWithHouses){
             System.out.println(property.getName());
         }
+        System.out.println();
         System.out.println("Input the property you want to sell from:");
 
         while (true){
@@ -304,7 +305,7 @@ public class HouseLogic {
                 ", which has " + chosenProperty.getHouses() + " on it.\n");
 
         // Find out how many houses the player wants to sell on the chosen property sell
-        System.out.println("Input how many houses you want to sell?\n");
+        System.out.println("Input how many houses you want to sell?");
 
         while (true){
 

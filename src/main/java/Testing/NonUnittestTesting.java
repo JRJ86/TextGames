@@ -24,8 +24,8 @@ public class NonUnittestTesting {
         PayRentLogic payRentLogic = new PayRentLogic();
         BuyFieldLogic buyFieldLogic = new BuyFieldLogic();
         ChanceCardLogic chanceCardLogic = new ChanceCardLogic();
-        PawnLogic pawnFieldLogic = new PawnLogic();
-        HouseLogic buyHouseLogic = new HouseLogic();
+        PawnLogic pawnLogic = new PawnLogic();
+        HouseLogic houseLogic = new HouseLogic();
         ParkingLogic parkingLogic = new ParkingLogic();
         WinAndLoose winAndLoose = new WinAndLoose();
 
@@ -85,16 +85,16 @@ public class NonUnittestTesting {
                         testChanceCardLogic(setupGame,board,chanceCardLogic);
                         break;
                     case 12:
-                        testPawnFieldLogic(setupGame,board,pawnFieldLogic,buyFieldLogic);
+                        testPawnFieldLogic(setupGame,board,pawnLogic,buyFieldLogic);
                         break;
                     case 13:
-                        testBuyHouseLogic(board,setupGame,buyFieldLogic,buyHouseLogic, scanner);
+                        testBuyHouseLogic(board,setupGame,buyFieldLogic,houseLogic, scanner);
                         break;
                     case 14:
                         testParkingLogic(board,parkingLogic,setupGame,chanceCardLogic);
                         break;
                     case 15:
-                        testWinLoose(setupGame,board,winAndLoose,buyFieldLogic);
+                        testWinLoose(setupGame,board,winAndLoose,buyFieldLogic,houseLogic,scanner,pawnLogic);
                         break;
                     default:
                         System.out.println("Not a valid test number!!");
@@ -1014,7 +1014,9 @@ public class NonUnittestTesting {
 
     // ------------------------------- Win / Loose game testing --------------------------------------------------------
 
-    private static void testWinLoose(SetupGame setupGame, Board board, WinAndLoose winAndLoose, BuyFieldLogic buyFieldLogic){
+    private static void testWinLoose(SetupGame setupGame, Board board, WinAndLoose winAndLoose,
+                                     BuyFieldLogic buyFieldLogic, HouseLogic houseLogic,Scanner scanner,
+                                     PawnLogic pawnLogic){
 
         // Setup game
         setupGame.createGame(board.getBoard(), board.getChancePile());
@@ -1042,10 +1044,10 @@ public class NonUnittestTesting {
 
         playerLooser.setWalletAmount(0);
 
-        System.out.println("Player " + playerLooser.getName() + " has a wallet amount of " + playerLooser.getWalletAmount() + "\n");
+        System.out.println("Player " + playerLooser.getName() + " has a wallet amount of " + playerLooser.getWalletAmount() +
+                " and a property list size of: " + playerLooser.getProperties().size() + "\n");
 
         do {
-
             if (winAndLoose.looseConditions(playerLooser)){
                 System.out.println("Player " + playerLooser.getName() + " is out of the game!\n");
                 for (Player player: board.getPlayers()){
@@ -1058,18 +1060,97 @@ public class NonUnittestTesting {
                     break;
                 }
 
-            } else {
-                System.out.println("Player " + playerLooser.getName() + " still has some properties to pawn or houses to sell\n");
+            }else {
+                System.out.println("Player " + playerLooser.getName() + " still has some properties to pawn or houses to sell.\n" +
+                        "Player " + playerLooser.getName() + "'s properties looks like this: ");
 
+                for (BuyableField buyableField: playerLooser.getProperties()){
+                    if (buyableField instanceof Property){
+                        System.out.println(buyableField + "\n");
+                    }
+                }
+
+                do {
+
+                    int houses = 0;
+
+                    System.out.println("We will now see if we can sell some houses from a property!\n");
+
+                    houseLogic.sellHousesFromProperty(playerLooser, scanner);
+
+                    System.out.println("Player " + playerLooser.getName() + " has sold houses on a property, and his properties looks like this:\n");
+                    for (BuyableField buyableField : playerLooser.getProperties()) {
+                        if (buyableField instanceof Property) {
+                            System.out.println(buyableField.getName() + " has " + ((Property) buyableField).getHouses() + " houses.");
+                        }
+                    }
+
+                    System.out.println(playerLooser.getName() + " now has " + playerLooser.getWalletAmount() + " in his wallet!\n");
+
+                    for (BuyableField buyableField : playerLooser.getProperties()) {
+                        if (buyableField instanceof Property) {
+                            houses = houses + ((Property) buyableField).getHouses();
+                        }
+                    }
+
+                    if (houses == 0){
+                        break;
+                    }
+
+                } while (true);
+
+                if (winAndLoose.looseConditions(playerLooser)){
+                    System.out.println("Player " + playerLooser.getName() + " is out of the game!\n");
+                    for (Player player: board.getPlayers()){
+                        if (player == playerLooser){
+                            board.getPlayers().remove(playerLooser);
+                        }
+                    }
+                    if (winAndLoose.winConditions(board,playerWinner)){
+                        System.out.println("Player " + playerWinner.getName() + " has won the game!\n");
+                        break;
+                    }
+                }else {
+                    System.out.println("Pawning " + playerLooser.getName() + "'s properties.\n");
+
+                    pawnLogic.pawnField(playerLooser,blue1);
+                    pawnLogic.pawnField(playerLooser,blue2);
+
+                    System.out.println("Player " + playerLooser.getName() + "'s property list has a size of " + playerLooser.getProperties().size() + "\n");
+
+                    if (winAndLoose.looseConditions(playerLooser)) {
+                        System.out.println("Player " + playerLooser.getName() + " is out of the game!\n");
+                        for (Player player : board.getPlayers()) {
+                            if (player == playerLooser) {
+                                board.getPlayers().remove(playerLooser);
+                            }
+                        }
+                        if (winAndLoose.winConditions(board, playerWinner)) {
+                            System.out.println("Player " + playerWinner.getName() + " has won the game!\n");
+                            break;
+                        }
+                    }else {
+                        System.out.println("Setting " + playerLooser.getName() + "'s wallet to zero.");
+                        playerLooser.setWalletAmount(0);
+
+                        if (winAndLoose.looseConditions(playerLooser)) {
+                            System.out.println("Player " + playerLooser.getName() + " is out of the game!\n");
+                            for (Player player : board.getPlayers()) {
+                                if (player == playerLooser) {
+                                    board.getPlayers().remove(playerLooser);
+                                }
+                            }
+                            if (winAndLoose.winConditions(board, playerWinner)) {
+                                System.out.println("Player " + playerWinner.getName() + " has won the game!\n");
+                                break;
+                            }
+                        }
+                    }
+                }
 
             }
 
         }while (true);
-
-
-
     }
-
-
 }
 
