@@ -12,14 +12,4 @@ public class GameController {
 
     }
 
-    private boolean winningConditions(){
-
-        return false;
-    }
-
-    private boolean loosingConditions(){
-
-        return false;
-    }
-
 }

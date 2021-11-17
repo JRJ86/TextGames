@@ -6,16 +6,18 @@ public class Property extends BuyableField {
     private int[] rents;
     private int houseCost;
     private int houses;
-    private boolean hotel;
 
-    public Property(String color, int[] rents, int houseCost, int houses, boolean hotel) {
+    public Property(String color, int[] rents, int houseCost, int houses) {
         this.color = color;
         this.rents = rents;
         this.houseCost = houseCost;
         this.houses = houses;
-        this.hotel = hotel;
     }
 
+    /**
+     * Helper for toString()
+     * @return String saying if a property is owned
+     */
     private String isPropertyOwned(){
         if (!isOwned()){
             return "not owned";
@@ -23,12 +25,27 @@ public class Property extends BuyableField {
             return "owned";
     }
 
-    private String hotelOnProperty(){
-        if (!isHotel()){
-            return "no hotel";
+    /**
+     * Helper for toString()
+     * @return String saying if a property has a hotel
+     */
+    private String buildingsOnProperty(Property property){
+        switch (houses){
+            case 0:
+                return property.getName() + " has 0 houses!";
+            case 1:
+                return property.getName() + " has 1 house!";
+            case 2:
+                return property.getName() + " has 2 houses!";
+            case 3:
+                return property.getName() + " has 3 houses!";
+            case 4:
+                return property.getName() + " has 4 houses!";
+            case 5:
+                return property.getName() + " has 1 hotel!";
+            default:
+                return "This should not happen!!!";
         }
-        else
-            return "1 hotel";
     }
 
     @Override
@@ -36,18 +53,18 @@ public class Property extends BuyableField {
         return "-------------------------------------------------------------------------------- \n" +
                 "               Property: " + getName() + ", and is " + color + " color\n\n" +
                 "               The price is: " + getPrice() + " kr \n\n" +
-                "               Rent:               " + rents[0] + " kr\n" +
-                "               Rent with 1 house:  " + rents[1] + " kr\n" +
-                "               Rent with 2 houses: " + rents[2] + " kr\n" +
-                "               Rent with 3 houses: " + rents[3] + " kr\n" +
-                "               Rent with 4 houses: " + rents[4] + " kr\n" +
-                "               Rent with 1 hotel:  " + rents[5] + " kr\n\n" +
+                "               Rent:                           " + rents[0] + " kr\n" +
+                "               Rent (owning all of the color): " + rents[1] + " kr\n" +
+                "               Rent with 1 house:              " + rents[2] + " kr\n" +
+                "               Rent with 2 houses:             " + rents[3] + " kr\n" +
+                "               Rent with 3 houses:             " + rents[4] + " kr\n" +
+                "               Rent with 4 houses:             " + rents[5] + " kr\n" +
+                "               Rent with 1 hotel:              " + rents[6] + " kr\n\n" +
                 "               1 house costs " + houseCost + " kr\n" +
                 "               1 hotel costs " + houseCost + " kr, if the property has 4 houses \n\n" +
-                "               The property has " + houses + " houses \n" +
-                "               The property has " + hotelOnProperty() + "\n" +
-                "               The property is " + isPropertyOwned() + " by a player! \n" +
+                "               The property has " + buildingsOnProperty(this) + "\n" +
                 "               The property can be pawned for " + getPawnValue() + " kr\n" +
+                "               The property is owned by: " + getOwner().getName() + "\n" +
                 "-------------------------------------------------------------------------------- \n";
     }
 
@@ -85,11 +102,4 @@ public class Property extends BuyableField {
         this.houses = houses;
     }
 
-    public boolean isHotel() {
-        return hotel;
-    }
-
-    public void setHotel(boolean hotel) {
-        this.hotel = hotel;
-    }
 }
