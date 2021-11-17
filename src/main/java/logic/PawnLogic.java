@@ -3,7 +3,7 @@ package logic;
 import model.Player;
 import model.fields.BuyableField;
 
-public class PawnFieldLogic {
+public class PawnLogic {
 
     public void pawnField(Player owner, BuyableField buyableField){
         if (buyableField.isOwned() && buyableField.getOwner() == owner){

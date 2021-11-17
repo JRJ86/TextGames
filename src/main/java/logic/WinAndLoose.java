@@ -8,7 +8,7 @@ public class WinAndLoose {
     public boolean winConditions(Board board, Player focusedPlayer){
 
         // If player is the last in game
-        if (board.getPlayers().size() == 1 && board.getPlayers().get(0) == focusedPlayer){
+        if (board.getPlayers().size() <= 1 && board.getPlayers().get(0) == focusedPlayer){
             System.out.println("Player " + focusedPlayer.getName() + " is the last player in the game and has therefore won!");
             return true;
         }else {

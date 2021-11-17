@@ -24,9 +24,10 @@ public class NonUnittestTesting {
         PayRentLogic payRentLogic = new PayRentLogic();
         BuyFieldLogic buyFieldLogic = new BuyFieldLogic();
         ChanceCardLogic chanceCardLogic = new ChanceCardLogic();
-        PawnFieldLogic pawnFieldLogic = new PawnFieldLogic();
-        BuyHouseLogic buyHouseLogic = new BuyHouseLogic();
+        PawnLogic pawnFieldLogic = new PawnLogic();
+        HouseLogic buyHouseLogic = new HouseLogic();
         ParkingLogic parkingLogic = new ParkingLogic();
+        WinAndLoose winAndLoose = new WinAndLoose();
 
         while (true){
 
@@ -44,7 +45,8 @@ public class NonUnittestTesting {
                     "11: Test chance card functionality\n" +
                     "12: Test pawn functionality\n" +
                     "13: Test buy house functionality\n" +
-                    "14: Test parking logic functionality\n");
+                    "14: Test parking logic functionality\n" +
+                    "15: Test Win and Loose functionality\n");
 
             int choice = scanner.nextInt();
             while (true){
@@ -90,6 +92,9 @@ public class NonUnittestTesting {
                         break;
                     case 14:
                         testParkingLogic(board,parkingLogic,setupGame,chanceCardLogic);
+                        break;
+                    case 15:
+                        testWinLoose(setupGame,board,winAndLoose,buyFieldLogic);
                         break;
                     default:
                         System.out.println("Not a valid test number!!");
@@ -850,7 +855,7 @@ public class NonUnittestTesting {
 
     //----------------------- Pawn field testing -----------------------------------------------------------------------
 
-    private static void testPawnFieldLogic(SetupGame setupGame, Board board, PawnFieldLogic pawnFieldLogic, BuyFieldLogic buyFieldLogic){
+    private static void testPawnFieldLogic(SetupGame setupGame, Board board, PawnLogic pawnFieldLogic, BuyFieldLogic buyFieldLogic){
 
         //setup game
         setupGame.createGame(board.getBoard(), board.getChancePile());
@@ -911,7 +916,7 @@ public class NonUnittestTesting {
 
     //----------------------------- Buy house testing ------------------------------------------------------------------
 
-    private static void testBuyHouseLogic(Board board, SetupGame setupGame, BuyFieldLogic buyFieldLogic, BuyHouseLogic buyHouseLogic, Scanner scanner) {
+    private static void testBuyHouseLogic(Board board, SetupGame setupGame, BuyFieldLogic buyFieldLogic, HouseLogic buyHouseLogic, Scanner scanner) {
         //TODO: Almost done - need more testing!!
 
         // setup game and player
@@ -1005,6 +1010,64 @@ public class NonUnittestTesting {
                 " and the parking money is at " + board.getParkingMoney() + "\n");
 
         chanceFields.clear();
+    }
+
+    // ------------------------------- Win / Loose game testing --------------------------------------------------------
+
+    private static void testWinLoose(SetupGame setupGame, Board board, WinAndLoose winAndLoose, BuyFieldLogic buyFieldLogic){
+
+        // Setup game
+        setupGame.createGame(board.getBoard(), board.getChancePile());
+
+        // Make players
+        Player playerLooser = new Player("Jacob",10000,0,false);
+        Player playerWinner = new Player("Stella", 20000,0,false);
+        board.getPlayers().add(playerLooser);
+        board.getPlayers().add(playerWinner);
+
+        // give looser some properties
+        Property blue1 = (Property) board.getBoard()[1];
+        Property blue2 = (Property) board.getBoard()[3];
+        playerLooser.setPosition(blue1.getPosition());
+        buyFieldLogic.buyField(playerLooser, blue1);
+        blue1.setHouses(2);
+        playerLooser.setPosition(blue2.getPosition());
+        buyFieldLogic.buyField(playerLooser, blue2);
+        blue2.setHouses(1);
+
+        System.out.println("Player " + playerLooser.getName() + " has these properties: \n" + playerLooser.getProperties() +
+                "\nAnd " + playerLooser.getName() + " has a wallet of: " + playerLooser.getWalletAmount() + "\n");
+
+        // make player lose all money, so he has to pawn then lose all money again and test loose conditions
+
+        playerLooser.setWalletAmount(0);
+
+        System.out.println("Player " + playerLooser.getName() + " has a wallet amount of " + playerLooser.getWalletAmount() + "\n");
+
+        do {
+
+            if (winAndLoose.looseConditions(playerLooser)){
+                System.out.println("Player " + playerLooser.getName() + " is out of the game!\n");
+                for (Player player: board.getPlayers()){
+                    if (player == playerLooser){
+                        board.getPlayers().remove(playerLooser);
+                    }
+                }
+                if (winAndLoose.winConditions(board,playerWinner)){
+                    System.out.println("Player " + playerWinner.getName() + " has won the game!\n");
+                    break;
+                }
+
+            } else {
+                System.out.println("Player " + playerLooser.getName() + " still has some properties to pawn or houses to sell\n");
+
+
+            }
+
+        }while (true);
+
+
+
     }
 
 

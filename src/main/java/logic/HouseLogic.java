@@ -6,8 +6,16 @@ import model.fields.Property;
 
 import java.util.*;
 
-public class BuyHouseLogic {
+public class HouseLogic {
 
+    // ------------------------------------- Buy houses ----------------------------------------------------------------
+
+    /**
+     *
+     *
+     * @param owner
+     * @param scanner
+     */
     public void buyHouse(Player owner, Scanner scanner){
 
         boolean found = false;
@@ -239,38 +247,91 @@ public class BuyHouseLogic {
 
     }
 
-    //TODO ERASE
-    private ArrayList<Integer> splitValues(int houseChoice, int splitAmount){
+    //------------------------------------------ Sell houses -----------------------------------------------------------
 
-        int amount1;
-        int amount2;
-        ArrayList<Integer> splitValues = new ArrayList<>();
-        int[] temp = new int[splitAmount];
+    /**
+     * Sell houses from a chosen property
+     *
+     * @param player The player that wants to sell houses
+     * @param scanner A scanner for input from player
+     */
+    public void sellHousesFromProperty(Player player, Scanner scanner){
 
-        if (houseChoice % splitAmount == 0){
-            Arrays.fill(temp, (houseChoice / splitAmount));
+        ArrayList<Property> propertiesWithHouses = new ArrayList<>();
+        int inputHouses;
+        String inputProperty;
+        boolean propertyCheck = false;
+        Property chosenProperty = null;
 
-        }else {
-            amount2 = splitAmount - (houseChoice %  splitAmount);
-            amount1 = houseChoice / splitAmount;
+        // Find out which properties have houses to sell
+        for (BuyableField field: player.getProperties()){
+            if (field instanceof Property){
+                if (((Property) field).getHouses() > 0){
+                    propertiesWithHouses.add((Property) field);
+                }
+            }
+        }
+        // Pick one of the properties
+        System.out.println("The following properties have houses on them: \n");
+        for (Property property: propertiesWithHouses){
+            System.out.println(property.getName());
+        }
+        System.out.println("Input the property you want to sell from:");
 
-            for (int i = 0; i < temp.length; i++) {
-                if (i >= amount2){
-                    temp[i] = (amount1 + 1);
+        while (true){
+            try {
+                inputProperty = scanner.next();
 
+                for (Property property: propertiesWithHouses){
+                    if (inputProperty.equals(property.getName())) {
+                        propertyCheck = true;
+                        chosenProperty = property;
+                        break;
+                    }
+                }
+                if (propertyCheck){
+                    break;
+                }
+
+                System.out.println("Input was wrong. try again!");
+
+            }catch (InputMismatchException e){
+                System.err.println("You have to input a property name!");
+            }
+        }
+
+        System.out.println(player.getName() + " has chosen to sell houses from " + chosenProperty.getName() +
+                ", which has " + chosenProperty.getHouses() + " on it.\n");
+
+        // Find out how many houses the player wants to sell on the chosen property sell
+        System.out.println("Input how many houses you want to sell?\n");
+
+        while (true){
+
+            try{
+                inputHouses = scanner.nextInt();
+
+                if (inputHouses < chosenProperty.getHouses() || inputHouses > chosenProperty.getHouses()){
+                    System.out.println("You cannot sell that amount of houses!\n");
                 }else {
-                    temp[i] = amount1;
+                    break;
+                }
+
+            }catch (InputMismatchException e){
+                System.err.println("Input needs to be a non-decimal number!\n");
+            }
+        }
+
+        System.out.println("Player " + player.getName() + " wants to sell " + inputHouses + " houses!\n");
+
+        for (BuyableField buyableField: player.getProperties()){
+            if (buyableField instanceof Property){
+                if (buyableField == chosenProperty){
+                    ((Property) buyableField).setHouses(((Property) buyableField).getHouses() - inputHouses);
+                    player.setWalletAmount(player.getWalletAmount() + (((Property) buyableField).getHouseCost() * inputHouses));
                 }
             }
         }
 
-        for (Integer number: temp) {
-            splitValues.add(number);
-        }
-
-        Arrays.fill(temp, 0);
-
-        return splitValues;
     }
-
 }
