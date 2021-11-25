@@ -14,7 +14,7 @@ public class TUI {
      *
      * @throws InterruptedException because of sleep function
      */
-    public static void startup() throws InterruptedException {
+    public void startup() throws InterruptedException {
 
         System.out.println("-------------------------------------------------------------------------------------------\n" +
                            "|                                                                                         |\n" +
@@ -26,28 +26,29 @@ public class TUI {
                            "|                                                                                         |\n" +
                            "-------------------------------------------------------------------------------------------");
 
-        Thread.sleep(500);
-        System.out.println("\n");
-
-        for (int i = 0; i < 10; i++){
-        System.out.println("                                   Loading: " + i * 10 + " %");
-            Thread.sleep(500);
-        }
-        System.out.println("                                   Loading: 100 %\n");
-        System.out.println("                                   Starting main menu!\n");
+//        Thread.sleep(500);
+//        System.out.println("\n");
+//
+//        for (int i = 0; i < 10; i++){
+//        System.out.println("                                   Loading: " + i * 10 + " %");
+//            Thread.sleep(500);
+//        }
+//        System.out.println("                                   Loading: 100 %\n");
+//        System.out.println("                                   Starting main menu!\n");
 
     }
 
     /**
      * The main menu
      */
-    public static void mainMenu(){
+    public void mainMenu(){
         System.out.println("-------------------------------------------------------------------------------------------\n" +
                            "|                                                                                         |\n" +
                            "|                                    Main Menu                                            |\n" +
                            "|                                                                                         |\n" +
                            "|                           Press '1' to start a new game!                                |\n" +
                            "|                           Press '2' to load a saved game!                               |\n" +
+                           "|                           Press '3' to go to the previous menu!                         |\n" +
                            "|                                                                                         |\n" +
                            "-------------------------------------------------------------------------------------------\n");
     }
@@ -55,7 +56,7 @@ public class TUI {
     /**
      * Choose how many players you want to play
      */
-    public static void preGameMenu(){
+    public void preGameMenu(){
         System.out.println("-------------------------------------------------------------------------------------------\n" +
                            "|                                                                                         |\n" +
                            "|                  Input how many players there will be in the game (MAX 6)!              |\n" +
@@ -81,7 +82,7 @@ public class TUI {
      * @param player The player whose turn it is
      * @param board the game board
      */
-    public static void turnMenu(Player player, Board board){
+    public void turnMenu(Player player, Board board){
         System.out.println("-------------------------------------------------------------------------------------------\n" +
                            "\n" +
                            "                            Player is: " + player.getName().toUpperCase() + "\n" +
@@ -106,7 +107,7 @@ public class TUI {
                            "\n");
     }
 
-    public static void printOwnedFields(ArrayList<BuyableField> ownedFields, Player player){
+    public void printOwnedFields(ArrayList<BuyableField> ownedFields, Player player){
         
         if (ownedFields.isEmpty()){
             System.out.println(player.getName() + " does not own any properties!");

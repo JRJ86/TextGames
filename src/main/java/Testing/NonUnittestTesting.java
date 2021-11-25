@@ -28,6 +28,7 @@ public class NonUnittestTesting {
         HouseLogic houseLogic = new HouseLogic();
         ParkingLogic parkingLogic = new ParkingLogic();
         WinAndLoose winAndLoose = new WinAndLoose();
+        TUI tui = new TUI();
 
         while (true){
 
@@ -67,7 +68,7 @@ public class NonUnittestTesting {
                         testGetOutOfJail(board,setupGame,jailLogik,scanner);
                         break;
                     case 6:
-                        testTUI(scanner,board,setupGame);
+                        testTUI(scanner,board,setupGame,tui);
                         break;
                     case 7:
                         testPayRentBrewery(board,setupGame,payRentLogic,buyFieldLogic);
@@ -229,18 +230,18 @@ public class NonUnittestTesting {
 
     //------------------ TUI testing -----------------------------------------------------------------------------------
 
-    private static void testTUI(Scanner scanner, Board board, SetupGame setupGame) throws InterruptedException {
+    private static void testTUI(Scanner scanner, Board board, SetupGame setupGame, TUI tui) throws InterruptedException {
 
         String input;
         int parsedInput1 = 0;
 
         setupGame.createGame(board.getBoard(), board.getChancePile());
 
-        TUI.startup();
+        tui.startup();
 
         while (true){
 
-            TUI.mainMenu();
+            tui.mainMenu();
 
             while (true){
 
@@ -268,7 +269,7 @@ public class NonUnittestTesting {
 
                 }while (true);
 
-                TUI.preGameMenu();
+                tui.preGameMenu();
 
                 do {
 
@@ -319,7 +320,7 @@ public class NonUnittestTesting {
 
                 for (int i = 0; i < board.getPlayers().size(); i++) {
                     Player player = board.getPlayers().get(i);
-                    TUI.turnMenu(player,board);
+                    tui.turnMenu(player,board);
 
                 }
             }

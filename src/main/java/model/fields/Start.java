@@ -22,8 +22,8 @@ public class Start extends Field{
     public String toString() {
         return "-------------------------------------------------------------------------------- \n" +
                 "                           This is the starting area.\n" +
-                "                Every time you pass Start you will collect 4000 kr. \n" +
-                "                If you land on Start you will collect 8000 kr. \n" +
+                "                Every time you pass StartOfSystem you will collect 4000 kr. \n" +
+                "                If you land on StartOfSystem you will collect 8000 kr. \n" +
                 "-------------------------------------------------------------------------------- \n";
     }
 }
