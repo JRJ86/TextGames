@@ -125,7 +125,7 @@ public class NonUnittestTesting {
         setupGame.createGame(board.getBoard(), board.getChancePile());
         System.out.println("Board created");
         System.out.println("Creating player!");
-        Player player = new Player("Jacob", 4000, 0, false);
+        Player player = new Player("Jacob", 4000, 0, false,1);
         System.out.println("Player: \n" + player);
         System.out.println();
         System.out.println("Putting player on the getting caught by police field!\n" +
@@ -335,8 +335,8 @@ public class NonUnittestTesting {
         setupGame.createGame(board.getBoard(),board.getChancePile());
 
         System.out.println("Creating 2 players!\n");
-        Player p1 = new Player("Jacob",8000,0,false);
-        Player p2 = new Player("Stella",8000,0,false);
+        Player p1 = new Player("Jacob",8000,0,false,1);
+        Player p2 = new Player("Stella",8000,0,false,2);
         board.getPlayers().add(p1);
         board.getPlayers().add(p2);
 
@@ -395,7 +395,7 @@ public class NonUnittestTesting {
     private static void testPayTaxLogic(Board board, SetupGame setupGame, PayTaxLogic payTaxLogic, Scanner scanner){
 
         //create player, board etc..
-        Player player = new Player("Jacob", 10000, 0, false);
+        Player player = new Player("Jacob", 10000, 0, false,1);
         setupGame.createGame(board.getBoard(), board.getChancePile());
 
         //move player to first tax field
@@ -437,10 +437,10 @@ public class NonUnittestTesting {
         Property blue1, blue2, skin1, skin2, skin3, green1, green2, green3;
 
         setupGame.createGame(board.getBoard(), board.getChancePile());
-        Player player1 = new Player("Jacob",20000,0,false);
-        Player player2 = new Player("Stella",20000,0,false);
-        Player player3 = new Player("Valdemar",20000,0,false);
-        Player player4 = new Player("Leonora",20000,0,false);
+        Player player1 = new Player("Jacob",20000,0,false,1);
+        Player player2 = new Player("Stella",20000,0,false,2);
+        Player player3 = new Player("Valdemar",20000,0,false,3);
+        Player player4 = new Player("Leonora",20000,0,false,4);
 
         //Give 3 players som properties
         //player 2 gets 1 property
@@ -588,11 +588,11 @@ public class NonUnittestTesting {
 
         //Creating players
         System.out.println("Creating the five players!!\n");
-        Player jacob = new Player("Jacob",10000,0,false);
-        Player stella = new Player("Stella",10000,0,false);
-        Player valdemar = new Player("Valdemar",10000,0,false);
-        Player leonora = new Player("Leonora",16000,0,false);
-        Player kida = new Player("Kida",20000,0,false);
+        Player jacob = new Player("Jacob",10000,0,false,1);
+        Player stella = new Player("Stella",10000,0,false,2);
+        Player valdemar = new Player("Valdemar",10000,0,false,3);
+        Player leonora = new Player("Leonora",16000,0,false,4);
+        Player kida = new Player("Kida",20000,0,false,5);
 
         board.getPlayers().add(jacob);
         board.getPlayers().add(stella);
@@ -814,7 +814,7 @@ public class NonUnittestTesting {
 
         //setup game and player
         setupGame.createGame(board.getBoard(), board.getChancePile());
-        Player jacob = new Player("Jacob", 10000,0,false);
+        Player jacob = new Player("Jacob", 10000,0,false,1);
 
         //make variables of the Chance fields
         Field chance1 = board.getBoard()[2];
@@ -862,8 +862,8 @@ public class NonUnittestTesting {
         setupGame.createGame(board.getBoard(), board.getChancePile());
 
         //setup players
-        Player jacob = new Player("Jacob", 100000,0,false);
-        Player stella = new Player("Stella",20000,0,false);
+        Player jacob = new Player("Jacob", 100000,0,false,1);
+        Player stella = new Player("Stella",20000,0,false,2);
 
         //give player jacob some properties
         System.out.println("Giving " + jacob.getName() + " some properties to pawn!\n");
@@ -922,7 +922,7 @@ public class NonUnittestTesting {
 
         // setup game and player
         setupGame.createGame(board.getBoard(), board.getChancePile());
-        Player jacob = new Player("Jacob", 40000,0,false);
+        Player jacob = new Player("Jacob", 40000,0,false,1);
 
         Property blue1 = (Property) board.getBoard()[1];
         Property blue2 = (Property) board.getBoard()[3];
@@ -966,8 +966,8 @@ public class NonUnittestTesting {
         setupGame.createGame(board.getBoard(), board.getChancePile());
 
         // Making four players
-        Player jacob = new Player("Jacob",20000,0,false);
-        Player stella = new Player("Stella",0,0,false);
+        Player jacob = new Player("Jacob",20000,0,false,1);
+        Player stella = new Player("Stella",0,0,false,2);
         board.getPlayers().add(jacob);
         board.getPlayers().add(stella);
 
@@ -1023,8 +1023,8 @@ public class NonUnittestTesting {
         setupGame.createGame(board.getBoard(), board.getChancePile());
 
         // Make players
-        Player playerLooser = new Player("Jacob",10000,0,false);
-        Player playerWinner = new Player("Stella", 20000,0,false);
+        Player playerLooser = new Player("Jacob",10000,0,false,1);
+        Player playerWinner = new Player("Stella", 20000,0,false,2);
         board.getPlayers().add(playerLooser);
         board.getPlayers().add(playerWinner);
 

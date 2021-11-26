@@ -26,15 +26,15 @@ public class TUI {
                            "|                                                                                         |\n" +
                            "-------------------------------------------------------------------------------------------");
 
-//        Thread.sleep(500);
-//        System.out.println("\n");
-//
-//        for (int i = 0; i < 10; i++){
-//        System.out.println("                                   Loading: " + i * 10 + " %");
-//            Thread.sleep(500);
-//        }
-//        System.out.println("                                   Loading: 100 %\n");
-//        System.out.println("                                   Starting main menu!\n");
+        Thread.sleep(500);
+        System.out.println("\n");
+
+        for (int i = 0; i < 10; i++){
+        System.out.println("                                   Loading: " + i * 10 + " %");
+            Thread.sleep(500);
+        }
+        System.out.println("                                   Loading: 100 %\n");
+        System.out.println("                                   Starting main menu!\n");
 
     }
 
@@ -105,6 +105,15 @@ public class TUI {
                            "|     Pawn properties!    |     |     Save and quit!      |     |     Quit or give up!    |\n" +
                            "---------------------------     ---------------------------     ---------------------------\n" +
                            "\n");
+    }
+    public void displayPlayers(Board board){
+        if (!board.getPlayers().isEmpty()){
+            System.out.println("-------------------------------------------------------------------------------------------");
+            for (int i = 0; i < board.getPlayers().size(); i++) {
+                System.out.println("                            Player " + board.getPlayers().get(i).getPlayerNumber() + " is " + board.getPlayers().get(i).getName());
+            }
+            System.out.println("-------------------------------------------------------------------------------------------\n");
+        }
     }
 
     public void printOwnedFields(ArrayList<BuyableField> ownedFields, Player player){

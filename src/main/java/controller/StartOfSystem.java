@@ -1,5 +1,7 @@
 package controller;
 
+import logic.*;
+import model.Board;
 import view.TUI;
 
 import java.util.Scanner;
@@ -13,6 +15,17 @@ public class StartOfSystem {
         Scanner scanner = new Scanner(System.in);
         TUI tui = new TUI();
         GameController controller = new GameController();
+        Board board = new Board();
+        SetupGame setupGame = new SetupGame();
+        JailLogik jailLogik = new JailLogik();
+        PayTaxLogic payTaxLogic = new PayTaxLogic();
+        PayRentLogic payRentLogic = new PayRentLogic();
+        BuyFieldLogic buyFieldLogic = new BuyFieldLogic();
+        ChanceCardLogic chanceCardLogic = new ChanceCardLogic();
+        PawnLogic pawnLogic = new PawnLogic();
+        HouseLogic houseLogic = new HouseLogic();
+        ParkingLogic parkingLogic = new ParkingLogic();
+        WinAndLoose winAndLoose = new WinAndLoose();
         String input;
 
         while (true){
@@ -27,7 +40,7 @@ public class StartOfSystem {
 
                 switch (input) {
                     case "1":
-                        controller.startupGame(tui,scanner);
+                        controller.startupGame(tui,scanner,board);
                         break;
                     case "2":
                         System.out.println("GUI Not implemented yet!");
@@ -48,8 +61,6 @@ public class StartOfSystem {
                 }
             }catch (NumberFormatException e){
                 System.err.println("Input has to be a number!");
-//                System.out.println(e.getLocalizedMessage());
-//                e.printStackTrace();
             }
         }
     }

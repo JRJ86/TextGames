@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class Player {
 
     private String name;
+    private int playerNumber;
     private int walletAmount;
     private int position;
     private int currentRoll;
@@ -14,8 +15,9 @@ public class Player {
     private boolean inJail;
     private DiceCup diceCup = new DiceCup();
 
-    public Player(String name, int walletAmount, int position, boolean inJail) {
+    public Player(String name, int walletAmount, int position, boolean inJail, int playerNumber) {
         this.name = name;
+        this.playerNumber = playerNumber;
         this.walletAmount = walletAmount;
         this.position = position;
         this.inJail = inJail;
@@ -83,6 +85,14 @@ public class Player {
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
+
+    public void setPlayerNumber(int playerNumber) {
+        this.playerNumber = playerNumber;
     }
 
     public int getCurrentRoll() {
